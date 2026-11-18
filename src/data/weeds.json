@@ -1,0 +1,770 @@
+[
+ {
+  "id": "abutilon-indicum",
+  "en": "Country mallow",
+  "sci": "Abutilon indicum",
+  "gu": "કાંસકી",
+  "img": "/weeds/abutilon-indicum.webp",
+  "page": 19
+ },
+ {
+  "id": "acalypha-indica",
+  "en": "Indian copper leaf",
+  "sci": "Acalypha indica",
+  "gu": "એકેલીફા",
+  "img": "/weeds/acalypha-indica.webp",
+  "page": 19
+ },
+ {
+  "id": "acanthospermum-hispidum",
+  "en": "Bristly starbur",
+  "sci": "Acanthospermum hispidum",
+  "gu": "સ્ટારબર",
+  "img": "/weeds/acanthospermum-hispidum.webp",
+  "page": 19
+ },
+ {
+  "id": "achyranthes-aspera",
+  "en": "Devils horsewhip",
+  "sci": "Achyranthes aspera",
+  "gu": "અંઘેડો",
+  "img": "/weeds/achyranthes-aspera.webp",
+  "page": 19
+ },
+ {
+  "id": "ageratum-conyzoides",
+  "en": "Billy Goat weed",
+  "sci": "Ageratum conyzoides",
+  "gu": "અજગંધા",
+  "img": "/weeds/ageratum-conyzoides.webp",
+  "page": 19
+ },
+ {
+  "id": "alhagi-pseudalhagi",
+  "en": "Camel thorn",
+  "sci": "Alhagi pseudalhagi",
+  "gu": "જવાસિયા",
+  "img": "/weeds/alhagi-pseudalhagi.webp",
+  "page": 19
+ },
+ {
+  "id": "alternanthera-sessilis",
+  "en": "Aligator weed",
+  "sci": "Alternanthera sessilis",
+  "gu": "ખાખીઘાસ",
+  "img": "/weeds/alternanthera-sessilis.webp",
+  "page": 19
+ },
+ {
+  "id": "amaranthus-lividus",
+  "en": "Slender amaranthus",
+  "sci": "Amaranthus lividus",
+  "gu": "તાંદળજો",
+  "img": "/weeds/amaranthus-lividus.webp",
+  "page": 19
+ },
+ {
+  "id": "amaranthus-viridis",
+  "en": "spineless amaranthus",
+  "sci": "Amaranthus viridis",
+  "gu": "ઢીમડો",
+  "img": "/weeds/amaranthus-viridis.webp",
+  "page": 19
+ },
+ {
+  "id": "amaranthus-spinosus",
+  "en": "Spiny pig weed",
+  "sci": "Amaranthus spinosus",
+  "gu": "કાંટાશેરીયુ",
+  "img": "/weeds/amaranthus-spinosus.webp",
+  "page": 19
+ },
+ {
+  "id": "anagallis-arvensis",
+  "en": "Scarlet pimpernel",
+  "sci": "Anagallis arvensis",
+  "gu": "ચણકચીભડી",
+  "img": "/weeds/anagallis-arvensis.webp",
+  "page": 19
+ },
+ {
+  "id": "argemone-mexicana",
+  "en": "Mexican Prickly poppy",
+  "sci": "Argemone mexicana",
+  "gu": "દારૂડી",
+  "img": "/weeds/argemone-mexicana.webp",
+  "page": 19
+ },
+ {
+  "id": "asphodelus-tenuifolius",
+  "en": "Onion weed",
+  "sci": "Asphodelus tenuifolius",
+  "gu": "ડુંગળો",
+  "img": "/weeds/asphodelus-tenuifolius.webp",
+  "page": 20
+ },
+ {
+  "id": "avena-fatua",
+  "en": "Wild oat",
+  "sci": "Avena fatua",
+  "gu": "જંગલી ઓટ",
+  "img": "/weeds/avena-fatua.webp",
+  "page": 20
+ },
+ {
+  "id": "boerhavia-diffusa",
+  "en": "Red spiderling",
+  "sci": "Boerhavia diffusa",
+  "gu": "સાટોડી",
+  "img": "/weeds/boerhavia-diffusa.webp",
+  "page": 20
+ },
+ {
+  "id": "boerhavia-erecta",
+  "en": "Erect spiderling",
+  "sci": "Boerhavia erecta",
+  "gu": "સાટોડી",
+  "img": "/weeds/boerhavia-erecta.webp",
+  "page": 20
+ },
+ {
+  "id": "brachiaria-ramosa",
+  "en": "Brown top millet",
+  "sci": "Brachiaria ramosa",
+  "gu": "ભારભી",
+  "img": "/weeds/brachiaria-ramosa.webp",
+  "page": 20
+ },
+ {
+  "id": "cardiospermum-halicacabum",
+  "en": "Baloon vine",
+  "sci": "Cardiospermum halicacabum",
+  "gu": "કાનફૂટી",
+  "img": "/weeds/cardiospermum-halicacabum.webp",
+  "page": 20
+ },
+ {
+  "id": "cassia-occidentalis",
+  "en": "Coffee senna",
+  "sci": "Cassia occidentalis",
+  "gu": "કાસુંદ્રો",
+  "img": "/weeds/cassia-occidentalis.webp",
+  "page": 20
+ },
+ {
+  "id": "cassia-tora",
+  "en": "Sickel pod",
+  "sci": "Cassia tora",
+  "gu": "કુંવાડિયો",
+  "img": "/weeds/cassia-tora.webp",
+  "page": 20
+ },
+ {
+  "id": "catheranthus-pusilus",
+  "en": "Tiny periwinkel",
+  "sci": "Catheranthus pusilus",
+  "gu": "નાની બારમાસી",
+  "img": "/weeds/catheranthus-pusilus.webp",
+  "page": 20
+ },
+ {
+  "id": "celosia-argentea",
+  "en": "Cocks comb",
+  "sci": "Celosia argentea",
+  "gu": "લાંબડી",
+  "img": "/weeds/celosia-argentea.webp",
+  "page": 20
+ },
+ {
+  "id": "chenopodium-album",
+  "en": "Lambs quarter",
+  "sci": "Chenopodium album",
+  "gu": "ચીલ",
+  "img": "/weeds/chenopodium-album.webp",
+  "page": 20
+ },
+ {
+  "id": "chenopodium-murale",
+  "en": "Nettle leaf goosefoot",
+  "sci": "Chenopodium murale",
+  "gu": "ચીલ-બલાડો",
+  "img": "/weeds/chenopodium-murale.webp",
+  "page": 20
+ },
+ {
+  "id": "chloris-barbata",
+  "en": "Purple chloris",
+  "sci": "Chloris barbata",
+  "gu": "કાળીયુ",
+  "img": "/weeds/chloris-barbata.webp",
+  "page": 21
+ },
+ {
+  "id": "chrozophora-rottleri",
+  "en": "Rottlers chrozophora",
+  "sci": "Chrozophora rottleri",
+  "gu": "હાથીઝાડ",
+  "img": "/weeds/chrozophora-rottleri.webp",
+  "page": 21
+ },
+ {
+  "id": "cichorium-intybus",
+  "en": "Chicory",
+  "sci": "Cichorium intybus",
+  "gu": "ચીકોરી",
+  "img": "/weeds/cichorium-intybus.webp",
+  "page": 21
+ },
+ {
+  "id": "commelina-benghalensis",
+  "en": "Tropical spiderwort",
+  "sci": "Commelina benghalensis",
+  "gu": "શેષમૂળ / બોકન",
+  "img": "/weeds/commelina-benghalensis.webp",
+  "page": 21
+ },
+ {
+  "id": "commelina-forskaolii",
+  "en": "Rat's ear",
+  "sci": "Commelina forskaolii",
+  "gu": "શેષમૂળ / બોકન",
+  "img": "/weeds/commelina-forskaolii.webp",
+  "page": 21
+ },
+ {
+  "id": "convolvulus-arvensis",
+  "en": "Field bind weed",
+  "sci": "Convolvulus arvensis",
+  "gu": "ચંદનવેલ / નાળી",
+  "img": "/weeds/convolvulus-arvensis.webp",
+  "page": 21
+ },
+ {
+  "id": "corchorus-trilocularis",
+  "en": "Cotton weed",
+  "sci": "Corchorus trilocularis",
+  "gu": "કાગડાસીંગ",
+  "img": "/weeds/corchorus-trilocularis.webp",
+  "page": 21
+ },
+ {
+  "id": "cuscuta-chinensis",
+  "en": "Dodder",
+  "sci": "Cuscuta chinensis",
+  "gu": "અમરવેલ",
+  "img": "/weeds/cuscuta-chinensis.webp",
+  "page": 21
+ },
+ {
+  "id": "cynodon-dactylon",
+  "en": "Bermuda grass",
+  "sci": "Cynodon dactylon",
+  "gu": "ધરો",
+  "img": "/weeds/cynodon-dactylon.webp",
+  "page": 21
+ },
+ {
+  "id": "cyperus-difformis",
+  "en": "Umbrella sedge",
+  "sci": "Cyperus difformis",
+  "gu": "છતરીયું",
+  "img": "/weeds/cyperus-difformis.webp",
+  "page": 21
+ },
+ {
+  "id": "cyperus-esculentus",
+  "en": "Yellow nut sedge",
+  "sci": "Cyperus esculentus",
+  "gu": "ડીલો",
+  "img": "/weeds/cyperus-esculentus.webp",
+  "page": 21
+ },
+ {
+  "id": "cyperus-iria",
+  "en": "Rice flat sedge",
+  "sci": "Cyperus iria",
+  "gu": "ડીરીયું",
+  "img": "/weeds/cyperus-iria.webp",
+  "page": 21
+ },
+ {
+  "id": "cyperus-rotundus",
+  "en": "Purple nut sedge",
+  "sci": "Cyperus rotundus",
+  "gu": "ચીઢો",
+  "img": "/weeds/cyperus-rotundus.webp",
+  "page": 22
+ },
+ {
+  "id": "dactyloctenium-aegyptium",
+  "en": "Crow foot grass",
+  "sci": "Dactyloctenium aegyptium",
+  "gu": "ચોકડીયુ",
+  "img": "/weeds/dactyloctenium-aegyptium.webp",
+  "page": 22
+ },
+ {
+  "id": "desmodium-gangeticum",
+  "en": "Sal leaved desmodium",
+  "sci": "Desmodium gangeticum",
+  "gu": "શાલપર્ણી",
+  "img": "/weeds/desmodium-gangeticum.webp",
+  "page": 22
+ },
+ {
+  "id": "digera-arvensis",
+  "en": "False amaranth",
+  "sci": "Digera arvensis",
+  "gu": "કણજરો",
+  "img": "/weeds/digera-arvensis.webp",
+  "page": 22
+ },
+ {
+  "id": "digitaria-sanguinalis",
+  "en": "Large crabgrass",
+  "sci": "Digitaria sanguinalis",
+  "gu": "આરોતારો",
+  "img": "/weeds/digitaria-sanguinalis.webp",
+  "page": 22
+ },
+ {
+  "id": "dinebra-retroflexa",
+  "en": "Viper grass",
+  "sci": "Dinebra retroflexa",
+  "gu": "ખારીયુ",
+  "img": "/weeds/dinebra-retroflexa.webp",
+  "page": 22
+ },
+ {
+  "id": "echinochloa-colona",
+  "en": "Jungle rice",
+  "sci": "Echinochloa colona",
+  "gu": "બંટ",
+  "img": "/weeds/echinochloa-colona.webp",
+  "page": 22
+ },
+ {
+  "id": "echinochloa-crus-galli",
+  "en": "Barnyard grass",
+  "sci": "Echinochloa crus-galli",
+  "gu": "સામો",
+  "img": "/weeds/echinochloa-crus-galli.webp",
+  "page": 22
+ },
+ {
+  "id": "eclipta-alba",
+  "en": "False daisy",
+  "sci": "Eclipta alba",
+  "gu": "ભાંગરો",
+  "img": "/weeds/eclipta-alba.webp",
+  "page": 22
+ },
+ {
+  "id": "eichhornia-crassipes",
+  "en": "Water hyacinth",
+  "sci": "Eichhornia crassipes",
+  "gu": "જળકુંભી",
+  "img": "/weeds/eichhornia-crassipes.webp",
+  "page": 22
+ },
+ {
+  "id": "eleusine-indica",
+  "en": "Goose grass",
+  "sci": "Eleusine indica",
+  "gu": "ચોખલીયુ",
+  "img": "/weeds/eleusine-indica.webp",
+  "page": 22
+ },
+ {
+  "id": "eragrostis-major",
+  "en": "Love grass",
+  "sci": "Eragrostis major",
+  "gu": "ભૂમસી",
+  "img": "/weeds/eragrostis-major.webp",
+  "page": 22
+ },
+ {
+  "id": "euphorbia-hirta",
+  "en": "Milk weed",
+  "sci": "Euphorbia hirta",
+  "gu": "દૂધેલી",
+  "img": "/weeds/euphorbia-hirta.webp",
+  "page": 23
+ },
+ {
+  "id": "euphorbia-geniculata",
+  "en": "Wild poinsettia",
+  "sci": "Euphorbia geniculata",
+  "gu": "મોટી દૂધેલી",
+  "img": "/weeds/euphorbia-geniculata.webp",
+  "page": 23
+ },
+ {
+  "id": "fumaria-parviflora",
+  "en": "Fine leaf fumitory",
+  "sci": "Fumaria parviflora",
+  "gu": "પિત્તપાપડો / ગાજરી",
+  "img": "/weeds/fumaria-parviflora.webp",
+  "page": 23
+ },
+ {
+  "id": "gisekia-pharnaceoides",
+  "en": "Gisekia",
+  "sci": "Gisekia pharnaceoides",
+  "gu": "ગીસેકીયા",
+  "img": "/weeds/gisekia-pharnaceoides.webp",
+  "page": 23
+ },
+ {
+  "id": "gynandropsis-pentaphylla",
+  "en": "Carvell weed",
+  "sci": "Gynandropsis pentaphylla",
+  "gu": "મત્સ્યગંધાતી",
+  "img": "/weeds/gynandropsis-pentaphylla.webp",
+  "page": 23
+ },
+ {
+  "id": "helichrysum-luteoalbum",
+  "en": "Jersy cud weed",
+  "sci": "Helichrysum luteoalbum",
+  "gu": "મુંડેરી / ફુલવો",
+  "img": "/weeds/helichrysum-luteoalbum.webp",
+  "page": 23
+ },
+ {
+  "id": "heliotropium-indicum",
+  "en": "Indian heliotrope",
+  "sci": "Heliotropium indicum",
+  "gu": "હાથીસુંઢા",
+  "img": "/weeds/heliotropium-indicum.webp",
+  "page": 23
+ },
+ {
+  "id": "heliotropium-ovalifolium",
+  "en": "Grey leaf heliotrope",
+  "sci": "Heliotropium ovalifolium",
+  "gu": "રાખોડી હાથીસુંઢા",
+  "img": "/weeds/heliotropium-ovalifolium.webp",
+  "page": 23
+ },
+ {
+  "id": "ipomoea-pes-tigridis",
+  "en": "Tiger foot morning glory",
+  "sci": "Ipomoea pes-tigridis",
+  "gu": "ભમરડી",
+  "img": "/weeds/ipomoea-pes-tigridis.webp",
+  "page": 23
+ },
+ {
+  "id": "ipomoea-aquatica",
+  "en": "Water morning glory",
+  "sci": "Ipomoea aquatica",
+  "gu": "નાળો",
+  "img": "/weeds/ipomoea-aquatica.webp",
+  "page": 23
+ },
+ {
+  "id": "lagera-alata",
+  "en": "Laggera",
+  "sci": "Lagera alata",
+  "gu": "બોડીયોકલાર",
+  "img": "/weeds/lagera-alata.webp",
+  "page": 23
+ },
+ {
+  "id": "launaea-nudicaulis",
+  "en": "Bold leaf launaea",
+  "sci": "Launaea nudicaulis",
+  "gu": "ભોંયપાથરી",
+  "img": "/weeds/launaea-nudicaulis.webp",
+  "page": 23
+ },
+ {
+  "id": "leptochloa-panicea",
+  "en": "Sprangletop",
+  "sci": "Leptochloa panicea",
+  "gu": "લાપડું",
+  "img": "/weeds/leptochloa-panicea.webp",
+  "page": 24
+ },
+ {
+  "id": "leucas-aspera",
+  "en": "Common leucas",
+  "sci": "Leucas aspera",
+  "gu": "કુબી",
+  "img": "/weeds/leucas-aspera.webp",
+  "page": 24
+ },
+ {
+  "id": "melilotus-alba",
+  "en": "White sweet clover",
+  "sci": "Melilotus alba",
+  "gu": "સફેદ મેથીયુ",
+  "img": "/weeds/melilotus-alba.webp",
+  "page": 24
+ },
+ {
+  "id": "melilotus-indica",
+  "en": "Yellow sweet clover",
+  "sci": "Melilotus indica",
+  "gu": "મેથીયુ",
+  "img": "/weeds/melilotus-indica.webp",
+  "page": 24
+ },
+ {
+  "id": "mimosa-invisa",
+  "en": "Giant sensitive plant",
+  "sci": "Mimosa invisa",
+  "gu": "મોટી લજામણી",
+  "img": "/weeds/mimosa-invisa.webp",
+  "page": 24
+ },
+ {
+  "id": "mimosa-pudica",
+  "en": "Touch-me-not",
+  "sci": "Mimosa pudica",
+  "gu": "લજામણી",
+  "img": "/weeds/mimosa-pudica.webp",
+  "page": 24
+ },
+ {
+  "id": "mollugo-nudicaulis",
+  "en": "Necked stem carpet weed",
+  "sci": "Mollugo nudicaulis",
+  "gu": "કમળતારો",
+  "img": "/weeds/mollugo-nudicaulis.webp",
+  "page": 24
+ },
+ {
+  "id": "monochoria-viginalis",
+  "en": "Arrow leaf pond weed",
+  "sci": "Monochoria viginalis",
+  "gu": "લૌકિયા",
+  "img": "/weeds/monochoria-viginalis.webp",
+  "page": 24
+ },
+ {
+  "id": "moschosma-polystachyum",
+  "en": "Hoary basil",
+  "sci": "Moschosma polystachyum",
+  "gu": "આવચી-બાવચી",
+  "img": "/weeds/moschosma-polystachyum.webp",
+  "page": 24
+ },
+ {
+  "id": "oldenlandia-umbellata",
+  "en": "Chay root",
+  "sci": "Oldenlandia umbellata",
+  "gu": "મહિસાસુર",
+  "img": "/weeds/oldenlandia-umbellata.webp",
+  "page": 24
+ },
+ {
+  "id": "orobanche-ramosa",
+  "en": "Broomrape",
+  "sci": "Orobanche ramosa",
+  "gu": "વાકુંબા",
+  "img": "/weeds/orobanche-ramosa.webp",
+  "page": 24
+ },
+ {
+  "id": "parthenium-hysterophorus",
+  "en": "Carrot grass",
+  "sci": "Parthenium hysterophorus",
+  "gu": "ગાજરઘાસ",
+  "img": "/weeds/parthenium-hysterophorus.webp",
+  "page": 24
+ },
+ {
+  "id": "phalaris-minor",
+  "en": "Canary grass",
+  "sci": "Phalaris minor",
+  "gu": "ગુલ્લીદંડા",
+  "img": "/weeds/phalaris-minor.webp",
+  "page": 25
+ },
+ {
+  "id": "phyllanthus-niruri",
+  "en": "Gripe weed",
+  "sci": "Phyllanthus niruri",
+  "gu": "ભોંયઆમલી",
+  "img": "/weeds/phyllanthus-niruri.webp",
+  "page": 25
+ },
+ {
+  "id": "physalis-minima",
+  "en": "Sun berry",
+  "sci": "Physalis minima",
+  "gu": "પોપટી",
+  "img": "/weeds/physalis-minima.webp",
+  "page": 25
+ },
+ {
+  "id": "planta-gopsyllium",
+  "en": "Indian plantain",
+  "sci": "Planta gopsyllium",
+  "gu": "જીરાળો",
+  "img": "/weeds/planta-gopsyllium.webp",
+  "page": 25
+ },
+ {
+  "id": "polypogon-monspeliensis",
+  "en": "Annual rabbit foot grass",
+  "sci": "Polypogon monspeliensis",
+  "gu": "સસલાપગુ",
+  "img": "/weeds/polypogon-monspeliensis.webp",
+  "page": 25
+ },
+ {
+  "id": "portulaca-oleracea",
+  "en": "Common Purselane",
+  "sci": "Portulaca oleracea",
+  "gu": "લૂણી",
+  "img": "/weeds/portulaca-oleracea.webp",
+  "page": 25
+ },
+ {
+  "id": "portulaca-quadrifida",
+  "en": "Chicken weed",
+  "sci": "Portulaca quadrifida",
+  "gu": "નાની લૂણી",
+  "img": "/weeds/portulaca-quadrifida.webp",
+  "page": 25
+ },
+ {
+  "id": "rumex-dentatus",
+  "en": "Thoothed Dock",
+  "sci": "Rumex dentatus",
+  "gu": "જંગલી પાલખ",
+  "img": "/weeds/rumex-dentatus.webp",
+  "page": 25
+ },
+ {
+  "id": "saccharum-spontaneum",
+  "en": "Tiger grass",
+  "sci": "Saccharum spontaneum",
+  "gu": "દાભ / કાંસ",
+  "img": "/weeds/saccharum-spontaneum.webp",
+  "page": 25
+ },
+ {
+  "id": "setaria-verticileta",
+  "en": "Fox tail",
+  "sci": "Setaria verticileta",
+  "gu": "કૂતરીયું",
+  "img": "/weeds/setaria-verticileta.webp",
+  "page": 25
+ },
+ {
+  "id": "setaria-viridis",
+  "en": "Green fox tail",
+  "sci": "Setaria viridis",
+  "gu": "કૂતરીયું",
+  "img": "/weeds/setaria-viridis.webp",
+  "page": 25
+ },
+ {
+  "id": "sida-acuta",
+  "en": "Common wire weed",
+  "sci": "Sida acuta",
+  "gu": "બલા",
+  "img": "/weeds/sida-acuta.webp",
+  "page": 25
+ },
+ {
+  "id": "solanum-nigrum",
+  "en": "Black nightshed",
+  "sci": "Solanum nigrum",
+  "gu": "પીલુડી",
+  "img": "/weeds/solanum-nigrum.webp",
+  "page": 26
+ },
+ {
+  "id": "solanum-xanthocarpum",
+  "en": "Yellow berried nightshed",
+  "sci": "Solanum xanthocarpum",
+  "gu": "કંટાકરી / ભોંયરીંગણી",
+  "img": "/weeds/solanum-xanthocarpum.webp",
+  "page": 26
+ },
+ {
+  "id": "sorghum-halepense",
+  "en": "Johnson grass",
+  "sci": "Sorghum halepense",
+  "gu": "બરૂ",
+  "img": "/weeds/sorghum-halepense.webp",
+  "page": 26
+ },
+ {
+  "id": "spergula-arvensis",
+  "en": "Corn spurry",
+  "sci": "Spergula arvensis",
+  "gu": "સાંકળિયુ",
+  "img": "/weeds/spergula-arvensis.webp",
+  "page": 26
+ },
+ {
+  "id": "spermacoce-hispida",
+  "en": "Spermacoce",
+  "sci": "Spermacoce hispida",
+  "gu": "ગાંઠિયુ / મદનઘંટી",
+  "img": "/weeds/spermacoce-hispida.webp",
+  "page": 26
+ },
+ {
+  "id": "striga-lutea",
+  "en": "Witch weed",
+  "sci": "Striga lutea",
+  "gu": "આગિયો",
+  "img": "/weeds/striga-lutea.webp",
+  "page": 26
+ },
+ {
+  "id": "trianthema-monogyna",
+  "en": "Carpet weed",
+  "sci": "Trianthema monogyna",
+  "gu": "સાટોડો",
+  "img": "/weeds/trianthema-monogyna.webp",
+  "page": 26
+ },
+ {
+  "id": "tribulus-terrestris",
+  "en": "Puncture vine",
+  "sci": "Tribulus terrestris",
+  "gu": "ગોખરૂ",
+  "img": "/weeds/tribulus-terrestris.webp",
+  "page": 26
+ },
+ {
+  "id": "tridax-procumbens",
+  "en": "Tridex",
+  "sci": "Tridax procumbens",
+  "gu": "એકદાંડી",
+  "img": "/weeds/tridax-procumbens.webp",
+  "page": 26
+ },
+ {
+  "id": "typha-angustata",
+  "en": "Cat tails",
+  "sci": "Typha angustata",
+  "gu": "ઘાબાજરીયુ",
+  "img": "/weeds/typha-angustata.webp",
+  "page": 26
+ },
+ {
+  "id": "vernonia-cinerea",
+  "en": "Iron weed",
+  "sci": "Vernonia cinerea",
+  "gu": "ફૂલેકીયુ",
+  "img": "/weeds/vernonia-cinerea.webp",
+  "page": 26
+ },
+ {
+  "id": "xanthium-strumarium",
+  "en": "Common cocklebur",
+  "sci": "Xanthium strumarium",
+  "gu": "ગાડર",
+  "img": "/weeds/xanthium-strumarium.webp",
+  "page": 26
+ }
+]

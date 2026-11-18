@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest-950:#031c0c;--forest-900:#052e16;--forest-700:#14532d;--forest-600:#15803d;--forest-500:#16a34a;--forest-400:#22c55e;--forest-300:#4ade80;
+  --forest-200:#bbf7d0;--forest-100:#dcfce7;--forest-50:#f0fdf4;
+  --sky-600:#0284c7;--sky-200:#bae6fd;
+  --zig-600:#ea580c;--purple-600:#7c3aed;
+  --bg:#fafaf7;--bg-2:#f5f4ef;--surface:#ffffff;
+  --line:#eae7e0;--line-2:#d6d3cc;--line-3:#bfbbb2;
+  --text:#131311;--text-2:#3f3d38;--text-3:#78716c;--text-4:#a8a29e;
+  --radius-sm:10px;--radius:14px;--radius-lg:18px;--radius-xl:22px;
+  --shadow-xs:0 1px 2px rgba(19,19,17,.04);
+  --shadow-sm:0 1px 3px rgba(19,19,17,.06),0 1px 2px rgba(19,19,17,.03);
+  --shadow-md:0 4px 16px rgba(19,19,17,.06),0 2px 4px rgba(19,19,17,.04);
+  --shadow-lg:0 12px 32px rgba(19,19,17,.08),0 4px 8px rgba(19,19,17,.04);
+  --shadow-xl:0 24px 48px rgba(19,19,17,.12),0 8px 16px rgba(19,19,17,.06);
+  --shadow-glow:0 0 0 4px rgba(34,197,94,.15);
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans Gujarati','Noto Sans Devanagari','Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  padding-bottom:64px;
+}
+.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(24px) saturate(1.8);-webkit-backdrop-filter:blur(24px) saturate(1.8)}
+.header-inner{max-width:1140px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.94rem;letter-spacing:-.02em}
+.brand-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(140deg,#22c55e 0%,#15803d 60%,#052e16 100%);color:#fff;display:grid;place-items:center;flex:0 0 28px;box-shadow:0 2px 8px rgba(22,163,74,.3),inset 0 1px 0 rgba(255,255,255,.3);position:relative;overflow:hidden}
+.brand-mark svg{width:15px;height:15px;position:relative;z-index:1}
+.lang-switch{display:flex;gap:2px;background:var(--bg-2);border:1px solid var(--line);padding:3px;border-radius:10px}
+.lang-btn{background:transparent;border:none;color:var(--text-3);padding:6px 12px;border-radius:7px;font-family:inherit;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .25s var(--ease);letter-spacing:-.005em}
+.lang-btn:hover{color:var(--text)}
+.lang-btn.active{background:#fff;color:var(--text);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+.intro{padding:56px 0 40px;max-width:640px}
+.intro-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;color:var(--forest-700);background:linear-gradient(180deg,#f0fdf4,#dcfce7);border:1px solid var(--forest-200);padding:5px 11px;border-radius:7px;margin-bottom:18px;letter-spacing:.02em;box-shadow:0 1px 2px rgba(22,163,74,.06)}
+.intro-eyebrow svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.8}
+.intro h1{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700;line-height:1.1;letter-spacing:-.042em;color:var(--text)}
+.section{padding:26px 0}
+.section-label{display:flex;align-items:center;gap:10px;font-size:.71rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px}
+.section-label .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(140deg,#15803d,#052e16);color:#fff;font-size:.68rem;font-weight:700;box-shadow:0 2px 6px rgba(22,163,74,.3),inset 0 1px 0 rgba(255,255,255,.18)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-xl);padding:24px;box-shadow:var(--shadow-sm);transition:box-shadow .35s var(--ease);position:relative}
+.card:hover{box-shadow:var(--shadow-md)}
+.cs-wrap{position:relative}
+.cs-trigger{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;background:linear-gradient(180deg,#ffffff,#fefefc);border:1.5px solid var(--line-2);border-radius:12px;font-family:inherit;font-size:.92rem;font-weight:500;color:var(--text);text-align:left;cursor:pointer;transition:all .28s var(--ease)}
+.cs-trigger:hover{border-color:var(--forest-400);background:#ffffff}
+.cs-trigger.open{border-color:var(--forest-500);box-shadow:var(--shadow-glow);background:#ffffff}
+.cs-icon{width:34px;height:34px;flex:0 0 34px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(180deg,#f7f6f3,#eae7e0);transition:transform .4s var(--ease-spring),background .3s var(--ease);box-shadow:inset 0 1px 2px rgba(19,19,17,.04)}
+.cs-icon svg{width:18px;height:18px}
+.cs-trigger.open .cs-icon{transform:scale(1.06) rotate(-5deg)}
+.cs-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;font-weight:600;letter-spacing:-.012em}
+.cs-label.placeholder{color:var(--text-4);font-weight:500}
+.cs-sub{font-size:.7rem;font-weight:500;color:var(--text-4);display:block;margin-top:1px}
+.cs-arrow{width:16px;height:16px;flex:0 0 16px;stroke:var(--text-4);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s var(--ease-out),stroke .25s}
+.cs-trigger.open .cs-arrow{transform:rotate(180deg);stroke:var(--forest-600)}
+.cs-panel{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 28px 60px -18px rgba(19,19,17,.22),0 10px 20px -6px rgba(19,19,17,.1);z-index:100;opacity:0;transform:translateY(-10px) scale(.96);transform-origin:top center;pointer-events:none;transition:opacity .26s var(--ease-out),transform .32s var(--ease-out);overflow:hidden;max-height:440px;display:flex;flex-direction:column}
+.cs-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.cs-search{display:flex;align-items:center;gap:11px;padding:13px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#faf9f5,#f7f6f3);flex:0 0 auto}
+.cs-search svg{width:15px;height:15px;stroke:var(--text-4);fill:none;stroke-width:2.2;flex:0 0 15px;transition:stroke .22s}
+.cs-search:focus-within svg{stroke:var(--forest-600)}
+.cs-search input{flex:1;border:none;background:transparent;font-family:inherit;font-size:.9rem;font-weight:500;color:var(--text);outline:none;padding:0;width:100%}
+.cs-search input::placeholder{color:var(--text-4)}
+.cs-list{overflow-y:auto;padding:7px;flex:1}
+.cs-list::-webkit-scrollbar{width:9px}
+.cs-list::-webkit-scrollbar-track{background:transparent}
+.cs-list::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:5px;border:3px solid #fff}
+.cs-group{padding:9px 12px 4px;font-size:.66rem;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:8px;margin-top:5px}
+.cs-group:first-child{margin-top:0}
+.cs-group .grp-ico{width:13px;height:13px;display:grid;place-items:center;color:var(--text-4)}
+.cs-group .grp-ico svg{width:100%;height:100%}
+.cs-option{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:9px;cursor:pointer;font-size:.88rem;font-weight:500;color:var(--text-2);transition:all .2s var(--ease);position:relative;letter-spacing:-.005em}
+.cs-option:hover{background:linear-gradient(180deg,#f0fdf4,#e8faee);color:var(--forest-700);transform:translateX(2px)}
+.cs-option:hover .opt-ico{background:#dcfce7;color:var(--forest-700);transform:scale(1.08) rotate(-3deg)}
+.cs-option.selected{background:linear-gradient(180deg,#dcfce7,#c9f7d8);color:var(--forest-700);font-weight:600;box-shadow:inset 0 0 0 1px rgba(22,163,74,.15)}
+.cs-option.selected::after{content:"";position:absolute;right:13px;top:50%;transform:translateY(-50%);width:7px;height:7px;border-radius:50%;background:var(--forest-500);box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+.opt-ico{width:26px;height:26px;flex:0 0 26px;border-radius:7px;display:grid;place-items:center;background:linear-gradient(180deg,#f7f6f3,#eae7e0);color:var(--text-3);transition:all .28s var(--ease-spring)}
+.opt-ico svg{width:14px;height:14px}
+.cs-empty{padding:32px 18px;text-align:center;font-size:.85rem;color:var(--text-4)}
+.crop-meta{margin-top:14px;font-size:.78rem;color:var(--text-3);min-height:1.2em}
+.crop-meta b{color:var(--text);font-weight:600}
+.method-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:820px){.method-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.method-grid{grid-template-columns:repeat(2,1fr)}}
+.mbtn{background:linear-gradient(180deg,#ffffff,#fdfdfa);border:1.5px solid var(--line);border-radius:13px;padding:14px 10px 12px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:500;color:var(--text-3);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;line-height:1.2;transition:all .3s var(--ease);position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(19,19,17,.02)}
+.mbtn::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 110%,rgba(34,197,94,.16),transparent 65%);opacity:0;transition:opacity .4s var(--ease);pointer-events:none}
+.mbtn:hover{border-color:var(--forest-400);color:var(--forest-700);transform:translateY(-2px);box-shadow:0 8px 18px -6px rgba(22,163,74,.2)}
+.mbtn:hover::before{opacity:1}
+.mbtn-ico{width:36px;height:28px;display:grid;place-items:center;color:var(--text-4);transition:all .4s var(--ease-spring);position:relative;z-index:1}
+.mbtn-ico svg{width:100%;height:100%}
+.mbtn:hover .mbtn-ico{color:var(--forest-600);transform:scale(1.1)}
+.mbtn.active{background:linear-gradient(160deg,#f0fdf4 0%,#dcfce7 100%);border-color:var(--forest-500);color:var(--forest-800);font-weight:700;box-shadow:0 0 0 4px rgba(34,197,94,.15),0 6px 16px -4px rgba(22,163,74,.25);transform:translateY(-1px)}
+.mbtn.active::before{opacity:1}
+.mbtn.active .mbtn-ico{color:var(--forest-700);transform:scale(1.05)}
+.prow{display:grid;grid-template-columns:1fr 290px;gap:26px;align-items:flex-start;padding:24px 0;border-bottom:1px solid var(--line)}
+.prow:last-child{border-bottom:none}
+.prow:first-child{padding-top:4px}
+@media(max-width:720px){.prow{grid-template-columns:1fr;gap:16px}}
+.prow-left{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.prow label{display:flex;align-items:center;gap:10px;font-size:.92rem;font-weight:600;color:var(--text);line-height:1.35;letter-spacing:-.014em}
+.dot{width:11px;height:11px;border-radius:50%;flex:0 0 11px;box-shadow:0 0 0 3px rgba(255,255,255,.95),0 0 0 4px rgba(19,19,17,.04),0 1px 3px rgba(19,19,17,.15)}
+.prow-desc{font-size:.82rem;color:var(--text-3);line-height:1.55;padding-left:21px}
+.urow{display:flex;margin-top:6px;padding-left:21px;max-width:290px;border-radius:var(--radius-sm);box-shadow:0 1px 2px rgba(19,19,17,.04)}
+.urow:focus-within{box-shadow:0 1px 2px rgba(19,19,17,.04),0 0 0 4px rgba(34,197,94,.15)}
+.urow input{flex:1;border-radius:var(--radius-sm) 0 0 var(--radius-sm);border-right:none}
+.urow input:focus{z-index:2;box-shadow:none}
+.urow select{width:108px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:linear-gradient(180deg,#f7f6f3,#f0efe9);padding:12px 28px 12px 14px;font-size:.8rem;font-weight:600;color:var(--text-2);border-left:1px solid var(--line)}
+.mini{background:radial-gradient(ellipse at 50% 0%,rgba(220,252,231,.28),transparent 60%),linear-gradient(180deg,#fefdf8,#faf7ec);border:1.5px solid var(--line);border-radius:var(--radius);padding:0;height:210px;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 2px 4px rgba(19,19,17,.03);transition:all .35s var(--ease);position:relative;cursor:zoom-in}
+.mini:hover{border-color:var(--forest-400);box-shadow:inset 0 2px 4px rgba(19,19,17,.03),0 12px 28px -8px rgba(22,163,74,.18);transform:translateY(-2px)}
+.mini svg{width:100%;height:100%;display:block}
+.mini-zoom{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.96);border:1px solid var(--line);display:grid;place-items:center;color:var(--text-3);opacity:0;transition:all .3s var(--ease);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.06);z-index:2}
+.mini-zoom svg{width:13px;height:13px}
+.mini:hover .mini-zoom{opacity:1;transform:scale(1.05)}
+.zoom-modal{position:fixed;inset:0;background:rgba(10,25,15,.78);backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .32s var(--ease);overflow:auto}
+.zoom-modal.open{opacity:1;pointer-events:auto}
+.zoom-content{background:#fff;border-radius:20px;padding:22px;max-width:820px;width:100%;box-shadow:0 48px 120px -24px rgba(0,0,0,.55),0 24px 48px rgba(0,0,0,.22);transform:scale(.92) translateY(12px);transition:transform .4s var(--ease-spring);position:relative;max-height:calc(100vh - 48px);overflow:auto;touch-action:pinch-zoom}
+.zoom-modal.open .zoom-content{transform:scale(1) translateY(0)}
+.zoom-content svg{width:100%;height:auto;display:block;border-radius:16px;touch-action:pinch-zoom}
+.zoom-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:linear-gradient(180deg,#f7f6f3,#eae7e0);border:1px solid var(--line);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all .3s var(--ease);z-index:5;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.zoom-close:hover{background:var(--text);color:#fff;transform:rotate(90deg) scale(1.08);border-color:var(--text)}
+.zoom-close svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+.zoom-hint{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font-size:.72rem;font-weight:500;color:var(--text-3);background:rgba(255,255,255,.98);border:1px solid var(--line);padding:5px 13px;border-radius:99px;white-space:nowrap;display:flex;align-items:center;gap:6px;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.zoom-hint svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.2}
+select,input[type=number]{width:100%;font-family:inherit;font-size:.92rem;font-weight:500;color:var(--text);background:var(--surface);border:1.5px solid var(--line-2);border-radius:var(--radius-sm);padding:11px 14px;transition:all .24s var(--ease);letter-spacing:-.006em}
+select:hover,input:hover{border-color:var(--line-3);background:#fefefc}
+select:focus,input:focus{outline:none;border-color:var(--forest-500);box-shadow:var(--shadow-glow);background:#fff}
+.field-wrap{background:radial-gradient(ellipse at 50% 0%,rgba(254,243,199,.5),transparent 65%),linear-gradient(180deg,#fefcf5,#faf6ea);border:1.5px solid var(--line);border-radius:var(--radius-xl);padding:14px;overflow:hidden;cursor:zoom-in;position:relative;transition:all .35s var(--ease);box-shadow:inset 0 2px 4px rgba(120,80,20,.04)}
+.field-wrap:hover{border-color:var(--forest-400);box-shadow:inset 0 2px 4px rgba(120,80,20,.04),0 16px 40px -12px rgba(22,163,74,.18)}
+.field-wrap svg{width:100%;height:auto;display:block;border-radius:12px}
+.field-wrap .mini-zoom{opacity:0}
+.field-wrap:hover .mini-zoom{opacity:1;transform:scale(1.05)}
+.field-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;flex-wrap:wrap}
+.legend{display:flex;flex-wrap:wrap;gap:7px;flex:1;min-width:0}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:500;color:var(--text-3);background:linear-gradient(180deg,#fff,#fbfbf8);border:1px solid var(--line);padding:5px 11px;border-radius:7px;transition:all .25s var(--ease);letter-spacing:-.005em}
+.lg:hover{border-color:var(--line-2);color:var(--text-2);transform:translateY(-1px)}
+.lg i{width:11px;height:11px;border-radius:50%;display:block;flex:0 0 11px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.lg i.pl{background:radial-gradient(circle at 32% 30%,#86efac,#4ade80 40%,#15803d)}
+.lg i.bd{background:linear-gradient(180deg,#e8c79a,#b8834e);border-radius:3px}
+.lg i.wt{background:linear-gradient(180deg,#bae6fd,#0ea5e9);border-radius:3px}
+.lg i.dp{background:linear-gradient(180deg,#3b82f6,#1e40af);border-radius:2px;width:15px;height:4px}
+.lg i.zz{width:17px;height:0;border-top:2.5px dashed var(--zig-600);background:none}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#f7f6f3);border:1.5px solid var(--line-2);font-family:inherit;font-size:.82rem;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .3s var(--ease);letter-spacing:-.005em;box-shadow:0 1px 2px rgba(19,19,17,.04),inset 0 1px 0 rgba(255,255,255,.7);white-space:nowrap;flex:0 0 auto}
+.btn-download:hover{border-color:var(--forest-500);background:linear-gradient(180deg,#f0fdf4,#dcfce7);color:var(--forest-700);transform:translateY(-1px);box-shadow:0 6px 14px -4px rgba(22,163,74,.22),inset 0 1px 0 rgba(255,255,255,.8)}
+.btn-download:active{transform:translateY(0)}
+.btn-download svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn-download:disabled{opacity:.6;cursor:wait}
+.btn-download .label{position:relative}
+.btn-download.loading .label{visibility:hidden}
+.btn-download.loading::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--forest-400);border-top-color:var(--forest-700);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.results{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:760px){.results{grid-template-columns:1fr 1fr}}
+.rc{background:linear-gradient(180deg,#ffffff,#fbfbf8);border:1px solid var(--line);border-radius:13px;padding:20px 14px;text-align:center;transition:all .32s var(--ease);position:relative;overflow:hidden}
+.rc::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#eae7e0,transparent);opacity:.7}
+.rc:hover{transform:translateY(-3px);box-shadow:0 10px 24px -6px rgba(19,19,17,.1);border-color:var(--line-2)}
+.rc .rl{font-size:.7rem;font-weight:500;color:var(--text-3);margin-bottom:9px;line-height:1.35;letter-spacing:.015em;text-transform:uppercase}
+.rc .rv{font-size:clamp(1.22rem,3.2vw,1.6rem);font-weight:700;color:var(--text);line-height:1.05;letter-spacing:-.038em;word-break:break-word;font-variant-numeric:tabular-nums}
+.rc .ru{font-size:.7rem;color:var(--text-4);font-weight:500;margin-top:6px;letter-spacing:-.005em}
+.rc.hi{background:radial-gradient(circle at 90% -10%,rgba(74,222,128,.22),transparent 55%),radial-gradient(circle at 10% 110%,rgba(251,191,36,.12),transparent 50%),linear-gradient(155deg,#052e16 0%,#14532d 55%,#166534 100%);border-color:#052e16;box-shadow:0 10px 28px -8px rgba(5,46,22,.5)}
+.rc.hi::before{background:linear-gradient(90deg,#fbbf24,#f59e0b,#fbbf24);opacity:1;height:3px;box-shadow:0 0 20px rgba(245,158,11,.55)}
+.rc.hi .rl{color:rgba(255,255,255,.72)}
+.rc.hi .rv{color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.25)}
+.rc.hi .ru{color:rgba(255,255,255,.6)}
+.formula{margin-top:14px;padding:13px 17px;background:linear-gradient(135deg,#f0fdf4 0%,#f7fef9 100%);border:1px solid var(--forest-200);border-radius:11px;font-size:.82rem;color:var(--forest-700);line-height:1.6;text-align:center;font-variant-numeric:tabular-nums;box-shadow:inset 0 1px 2px rgba(22,163,74,.05)}
+.formula code{background:#fff;padding:3px 9px;border-radius:6px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.8rem;font-weight:600;color:var(--forest-700);border:1px solid var(--forest-200)}
+footer{margin-top:72px;padding:28px 0 0;border-top:1px solid var(--line);text-align:center;font-size:.74rem;color:var(--text-4);line-height:1.75}
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);transition-delay:var(--delay,0s)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+      <span id="brandName">Plant Calculator</span>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="hi">हिंदी</button>
+      <button class="lang-btn" data-lang="gu">ગુજરાતી</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="intro">
+    <span class="intro-eyebrow"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span id="introEyebrow">ICAR &amp; SAU verified</span></span>
+    <h1 id="introTitle">Know exactly how many plants your field needs.</h1>
+  </section>
+
+  <section class="section">
+    <span class="section-label"><span class="n">1</span><span id="lbCrop">Crop</span></span>
+    <div class="card">
+      <div class="cs-wrap" id="csWrap">
+        <button type="button" class="cs-trigger" id="csTrigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="cs-icon" id="csIcon"><svg viewBox="0 0 24 24" fill="none" stroke="#78716c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4 6c0 4 4 6 8 6M20 6c0 4-4 6-8 6"/></svg></span>
+          <span style="flex:1;min-width:0"><span class="cs-label placeholder" id="csLabel">— Select crop —</span><span class="cs-sub" id="csSub"></span></span>
+          <svg class="cs-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="cs-panel" id="csPanel" role="listbox">
+          <div class="cs-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input type="text" id="csSearchInput" placeholder="Search crop..."></div>
+          <div class="cs-list" id="csList"></div>
+        </div>
+      </div>
+      <div class="crop-meta" id="cropMeta"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="section-label"><span class="n">2</span><span id="lbLayout">Layout</span></span>
+    <div class="card"><div class="method-grid" id="methodGrid"></div></div>
+  </section>
+
+  <section class="section">
+    <span class="section-label"><span class="n">3</span><span id="lbSpacing">Spacing</span></span>
+    <div class="card"><div id="params"></div></div>
+  </section>
+
+  <section class="section">
+    <span class="section-label"><span class="n">4</span><span id="lbField">Field</span></span>
+    <div class="card">
+      <div class="field-wrap" id="fieldWrap">
+        <div class="mini-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg></div>
+        <svg id="fieldSvg" viewBox="0 0 900 640" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <div class="field-actions">
+        <div class="legend">
+          <span class="lg"><i class="pl"></i><span id="lgPl">Plant</span></span>
+          <span class="lg"><i class="bd"></i><span id="lgBd">Bed</span></span>
+          <span class="lg"><i class="wt"></i><span id="lgWt">Water</span></span>
+          <span class="lg"><i class="dp"></i><span id="lgDp">Drip</span></span>
+          <span class="lg"><i class="zz"></i><span id="lgZz">Zigzag</span></span>
+        </div>
+        <button type="button" class="btn-download" id="btnDownload">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span class="label" id="btnDownloadLabel">Download image</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="section-label"><span class="n">5</span><span id="lbResult">Result</span></span>
+    <div class="card">
+      <div class="results">
+        <div class="rc hi"><div class="rl" id="rTL">Total Plants</div><div class="rv" id="rTotal">—</div><div class="ru" id="rTU">plants</div></div>
+        <div class="rc"><div class="rl" id="rHL">Plants / ha</div><div class="rv" id="rPerHa">—</div><div class="ru" id="rHU">plants/ha</div></div>
+        <div class="rc"><div class="rl" id="rAL">Plants / acre</div><div class="rv" id="rPerAcre">—</div><div class="ru" id="rAU">plants/acre</div></div>
+        <div class="rc"><div class="rl" id="rPL">Per plant</div><div class="rv" id="rApp">—</div><div class="ru" id="rPU">m²/plant</div></div>
+      </div>
+      <div class="formula" id="formulaBox"></div>
+    </div>
+  </section>
+
+  <footer><span id="ft1">🌾 ICAR / SAU based</span> &nbsp;·&nbsp; <span id="ft2">Verify with your local agriculture officer</span></footer>
+</div>
+
+<div class="zoom-modal" id="zoomModal">
+  <div class="zoom-content" id="zoomContent">
+    <button class="zoom-close" id="zoomClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div id="zoomBody"></div>
+    <div class="zoom-hint"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg><span id="zoomHintText">Pinch to zoom</span></div>
+  </div>
+</div>
+
+<script>
+var CAT_ICONS = {
+  fruit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-2 0-4 2-4 5s2 7 4 7 4-4 4-7-2-5-4-5z"/><path d="M12 8V5"/><path d="M9 5c1 0 2-.5 3-2 1 1.5 2 2 3 2"/></svg>',
+  veg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M9 5c0 1 1 2 3 2s3-1 3-2"/><path d="M12 9c-2 3-3 6-3 9 0 1 .5 2 3 2s3-1 3-2c0-3-1-6-3-9z"/></svg>',
+  other:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 9c0-3-2-6-5-6 0 3 2 6 5 6z"/><path d="M12 9c0-3 2-6 5-6 0 3-2 6-5 6z"/><path d="M12 15c0-2-1.5-4-3.5-4 0 2 1.5 4 3.5 4z"/><path d="M12 15c0-2 1.5-4 3.5-4 0 2-1.5 4-3.5 4z"/></svg>'
+};
+var METHOD_ICONS = {
+  square:'<svg viewBox="0 0 40 28" fill="none"><circle cx="10" cy="8" r="2.6" fill="currentColor"/><circle cx="30" cy="8" r="2.6" fill="currentColor"/><circle cx="10" cy="20" r="2.6" fill="currentColor"/><circle cx="30" cy="20" r="2.6" fill="currentColor"/><path d="M10 8h20M10 20h20M10 8v12M30 8v12" stroke="currentColor" stroke-width="0.8" opacity=".35" stroke-dasharray="1.5 1.5"/></svg>',
+  rect:'<svg viewBox="0 0 40 28" fill="none"><circle cx="8" cy="8" r="2.2" fill="currentColor"/><circle cx="20" cy="8" r="2.2" fill="currentColor"/><circle cx="32" cy="8" r="2.2" fill="currentColor"/><circle cx="8" cy="20" r="2.2" fill="currentColor"/><circle cx="20" cy="20" r="2.2" fill="currentColor"/><circle cx="32" cy="20" r="2.2" fill="currentColor"/><path d="M8 14h24" stroke="currentColor" stroke-width="0.8" opacity=".35" stroke-dasharray="1.5 1.5"/></svg>',
+  tri:'<svg viewBox="0 0 40 28" fill="none"><circle cx="7" cy="7" r="2" fill="currentColor"/><circle cx="20" cy="7" r="2" fill="currentColor"/><circle cx="33" cy="7" r="2" fill="currentColor"/><circle cx="13" cy="15" r="2" fill="currentColor"/><circle cx="27" cy="15" r="2" fill="currentColor"/><circle cx="7" cy="23" r="2" fill="currentColor"/><circle cx="20" cy="23" r="2" fill="currentColor"/><circle cx="33" cy="23" r="2" fill="currentColor"/><path d="M7 7 13 15 20 7 27 15 33 7" stroke="currentColor" stroke-width="0.7" opacity=".35" fill="none"/></svg>',
+  paired:'<svg viewBox="0 0 40 28" fill="none"><circle cx="8" cy="7" r="1.9" fill="currentColor"/><circle cx="20" cy="7" r="1.9" fill="currentColor"/><circle cx="32" cy="7" r="1.9" fill="currentColor"/><circle cx="14" cy="12" r="1.9" fill="currentColor"/><circle cx="26" cy="12" r="1.9" fill="currentColor"/><circle cx="8" cy="20" r="1.9" fill="currentColor"/><circle cx="20" cy="20" r="1.9" fill="currentColor"/><circle cx="32" cy="20" r="1.9" fill="currentColor"/><circle cx="14" cy="25" r="1.9" fill="currentColor"/><circle cx="26" cy="25" r="1.9" fill="currentColor"/><path d="M8 7 14 12 20 7 26 12 32 7" stroke="currentColor" stroke-width="0.7" opacity=".35" fill="none"/><path d="M8 20 14 25 20 20 26 25 32 20" stroke="currentColor" stroke-width="0.7" opacity=".35" fill="none"/></svg>',
+  bed:'<svg viewBox="0 0 40 28" fill="none"><path d="M4 15 L8 11 L32 11 L36 15 L36 21 L4 21 Z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/><circle cx="13" cy="14" r="1.4" fill="currentColor"/><circle cx="20" cy="14" r="1.4" fill="currentColor"/><circle cx="27" cy="14" r="1.4" fill="currentColor"/><path d="M4 24 Q20 22 36 24" stroke="currentColor" stroke-width="0.9" fill="none" opacity=".45" stroke-dasharray="1.5 1.5"/></svg>'
+};
+
+var CROPS = [
+  {g:'Mango — Traditional', h:'आम — पारंपरिक', gu:'આંબો — પરંપરાગત', cat:'fruit', m:'square', r:1000, p:1000},
+  {g:'Mango — Amrapali HDP', h:'आम — अम्रपाली', gu:'આંબો — અમ્રપાલી', cat:'fruit', m:'square', r:250, p:250},
+  {g:'Banana — Dwarf', h:'केला — ड्वार्फ', gu:'કેળું — ડ્વાર્ફ', cat:'fruit', m:'square', r:150, p:150},
+  {g:'Banana — Tissue Culture', h:'केला — टिश्यू', gu:'કેળું — ટિશ્યુ', cat:'fruit', m:'square', r:165, p:165},
+  {g:'Papaya — Normal', h:'पपीता — सामान्य', gu:'પપૈયું — સામાન્ય', cat:'fruit', m:'square', r:180, p:180},
+  {g:'Papaya — High Density', h:'पपीता — HDP', gu:'પપૈયું — HDP', cat:'fruit', m:'rect', r:180, p:120},
+  {g:'Guava — Normal', h:'अमरूद — सामान्य', gu:'જામફળ — સામાન્ય', cat:'fruit', m:'square', r:600, p:600},
+  {g:'Guava — HDP', h:'अमरूद — HDP', gu:'જામફળ — HDP', cat:'fruit', m:'square', r:300, p:300},
+  {g:'Pomegranate — Normal', h:'अनार — सामान्य', gu:'દાડમ — સામાન્ય', cat:'fruit', m:'square', r:500, p:500},
+  {g:'Pomegranate — HDP', h:'अनार — HDP', gu:'દાડમ — HDP', cat:'fruit', m:'rect', r:500, p:250},
+  {g:'Coconut', h:'नारियल', gu:'નારિયેળ', cat:'fruit', m:'tri', r:750, p:750},
+  {g:'Grape — Thompson', h:'अंगूर — थॉम्पसन', gu:'દ્રાક્ષ — થોમ્પસન', cat:'fruit', m:'square', r:300, p:300},
+  {g:'Sapota', h:'चीकू', gu:'ચીકુ', cat:'fruit', m:'square', r:500, p:500},
+  {g:'Apple — HDP (M9)', h:'सेब — HDP', gu:'સેબ — HDP', cat:'fruit', m:'square', r:150, p:150},
+  {g:'Pineapple', h:'अनानास', gu:'પાઈનેપલ', cat:'fruit', m:'paired', n:60, w:90, p:30},
+  {g:'Dragon Fruit', h:'ड्रैगन फ्रूट', gu:'ડ્રેગન ફ્રૂટ', cat:'fruit', m:'square', r:200, p:200},
+  {g:'Tomato — HYV', h:'टमाटर — HYV', gu:'ટામેટા — HYV', cat:'veg', m:'rect', r:60, p:40},
+  {g:'Tomato — Hybrid', h:'टमाटर — हाइब्रिड', gu:'ટામેટા — હાઇબ્રિડ', cat:'veg', m:'square', r:60, p:60},
+  {g:'Tomato — Rainy', h:'टमाटर — बरसाती', gu:'ટામેટા — ચોમાસુ', cat:'veg', m:'rect', r:90, p:45},
+  {g:'Brinjal — Less Spreading', h:'बैंगन — कम', gu:'રીંગણ — ઓછું', cat:'veg', m:'square', r:60, p:60},
+  {g:'Brinjal — Spreading', h:'बैंगन — फैलाव', gu:'રીંગણ — ફેલાતું', cat:'veg', m:'rect', r:75, p:60},
+  {g:'Chilli — Standard', h:'मिर्च — सामान्य', gu:'મરચું — સામાન્ય', cat:'veg', m:'square', r:50, p:50},
+  {g:'Chilli — Paired', h:'मिर्च — जोड़ी', gu:'મરચું — જોડી', cat:'veg', m:'paired', n:60, w:90, p:45},
+  {g:'Cabbage — Early', h:'पत्तागोभी — जल्दी', gu:'કોબી — વહેલી', cat:'veg', m:'square', r:45, p:45},
+  {g:'Cabbage — Late', h:'पत्तागोभी — देर', gu:'કોબી — મોડી', cat:'veg', m:'square', r:60, p:60},
+  {g:'Cauliflower — Short', h:'फूलगोभी — कम', gu:'ફ્લાવર — ટૂંકું', cat:'veg', m:'rect', r:60, p:30},
+  {g:'Cauliflower — Long', h:'फूलगोभी — लंबी', gu:'ફ્લાવર — લાંબું', cat:'veg', m:'rect', r:75, p:45},
+  {g:'Onion', h:'प्याज', gu:'ડુંગળી', cat:'veg', m:'bed', bw:120, fw:30, R:3, p:10},
+  {g:'Potato', h:'आलू', gu:'બટાકા', cat:'veg', m:'bed', bw:75, fw:25, R:2, p:20},
+  {g:'Okra', h:'भिंडी', gu:'ભીંડો', cat:'veg', m:'rect', r:45, p:20},
+  {g:'Bitter Gourd', h:'करेला', gu:'કારેલું', cat:'veg', m:'rect', r:120, p:90},
+  {g:'Bottle Gourd', h:'लौकी', gu:'દૂધી', cat:'veg', m:'rect', r:180, p:90},
+  {g:'Ridge Gourd', h:'तुरई', gu:'તુરિયા', cat:'veg', m:'rect', r:180, p:90},
+  {g:'Sponge Gourd', h:'गिलकी', gu:'ગિલકા', cat:'veg', m:'rect', r:180, p:90},
+  {g:'Cowpea — Bush', h:'लोबिया — झाड़ी', gu:'ચોળી — બુશ', cat:'veg', m:'rect', r:30, p:15},
+  {g:'Cowpea — Trailing', h:'लोबिया — लता', gu:'ચોળી — વેલા', cat:'veg', m:'square', r:200, p:200},
+  {g:'French Bean — Bush', h:'फ्रेंच बीन — झाड़ी', gu:'ફણસી — બુશ', cat:'veg', m:'rect', r:40, p:15},
+  {g:'Radish', h:'मूली', gu:'મૂળો', cat:'veg', m:'bed', bw:120, fw:30, R:3, p:10},
+  {g:'Carrot', h:'गाजर', gu:'ગાજર', cat:'veg', m:'bed', bw:120, fw:30, R:3, p:7},
+  {g:'Spinach', h:'पालक', gu:'પાલક', cat:'veg', m:'bed', bw:120, fw:30, R:4, p:8},
+  {g:'Coriander', h:'धनिया', gu:'કોથમીર', cat:'veg', m:'bed', bw:100, fw:30, R:3, p:8},
+  {g:'Fenugreek', h:'मेथी', gu:'મેથી', cat:'veg', m:'bed', bw:100, fw:30, R:3, p:10},
+  {g:'Pea', h:'मटर', gu:'વટાણા', cat:'veg', m:'rect', r:30, p:10},
+  {g:'Watermelon', h:'तरबूज', gu:'તરબૂચ', cat:'veg', m:'rect', r:200, p:60},
+  {g:'Muskmelon', h:'खरबूजा', gu:'શક્કરટેટી', cat:'veg', m:'rect', r:150, p:50},
+  {g:'Cucumber', h:'खीरा', gu:'કાકડી', cat:'veg', m:'rect', r:150, p:60},
+  {g:'Pumpkin', h:'कद्दू', gu:'કોળું', cat:'veg', m:'rect', r:200, p:90},
+  {g:'Strawberry', h:'स्ट्रॉबेरी', gu:'સ્ટ્રોબેરી', cat:'veg', m:'bed', bw:120, fw:30, R:4, p:25},
+  {g:'Sugarcane — Paired 60:120', h:'गन्ना — जोड़ी 60:120', gu:'શેરડી — જોડી 60:120', cat:'other', m:'paired', n:60, w:120, p:45},
+  {g:'Sugarcane — Paired 30:150', h:'गन्ना — जोड़ी 30:150', gu:'શેરડી — જોડી 30:150', cat:'other', m:'paired', n:30, w:150, p:45},
+  {g:'Cotton — Paired 45:105', h:'कपास — जोड़ी 45:105', gu:'કપાસ — જોડી 45:105', cat:'other', m:'paired', n:45, w:105, p:30},
+  {g:'Cotton — HDPS', h:'कपास — HDPS', gu:'કપાસ — HDPS', cat:'other', m:'rect', r:90, p:15},
+  {g:'Maize — Paired 30:90', h:'मक्का — जोड़ी 30:90', gu:'મકાઈ — જોડી 30:90', cat:'other', m:'paired', n:30, w:90, p:20},
+  {g:'Groundnut — Bunch', h:'मूंगफली — गुच्छा', gu:'મગફળી — ગુચ્છ', cat:'other', m:'rect', r:30, p:10},
+  {g:'Groundnut — Paired', h:'मूंगफली — जोड़ी', gu:'મગફળી — જોડી', cat:'other', m:'paired', n:10, w:45, p:10},
+  {g:'Safflower', h:'कुसुम', gu:'કુસુમ', cat:'other', m:'rect', r:45, p:20},
+  {g:'Soybean', h:'सोयाबीन', gu:'સોયાબીન', cat:'other', m:'rect', r:45, p:5},
+  {g:'Turmeric (Bed)', h:'हल्दी — क्यारी', gu:'હળદર — બેડ', cat:'other', m:'bed', bw:120, fw:30, R:3, p:20},
+  {g:'Moringa', h:'सहजन', gu:'સરગવો', cat:'other', m:'square', r:400, p:400}
+];
+
+var T = {
+  en:{
+    brandName:'Plant Calculator', introEyebrow:'ICAR & SAU verified',
+    introTitle:'Know exactly how many plants your field needs.',
+    lbCrop:'Crop',lbLayout:'Layout',lbSpacing:'Spacing',lbField:'Field',lbResult:'Result',
+    cropPlaceholder:'— Select crop —', searchPlaceholder:'Search crop...', noResults:'No crop found',
+    groupFruit:'Fruit', groupVeg:'Vegetables', groupOther:'Field crops',
+    cropMetaDefault:'Choose a crop to auto-fill ICAR / SAU spacing.',
+    cropMetaRec:function(n,m){return 'Recommended: <b>'+n+'</b> · <b>'+m+'</b>';},
+    mSquare:'Square',mRect:'Rectangular',mTri:'Triangular',mPaired:'Two-Line',mBed:'Raised Bed',
+    rTL:'Total Plants',rHL:'Plants / ha',rAL:'Plants / acre',rPL:'Per plant',
+    resPlants:'plants', resPlantsHa:'plants/ha', resPlantsAcre:'plants/acre', resM2Plant:'m²/plant',
+    ft1:'🌾 ICAR / SAU based',ft2:'Verify with your local agriculture officer',
+    lgPl:'Plant',lgBd:'Bed',lgWt:'Water',lgDp:'Drip',lgZz:'Zigzag',
+    pSqSpacing:'Spacing', pRectRow:'Row to row distance', pRectPlant:'Plant to plant distance',
+    pTriPlant:'Plant to plant distance', pPNarrow:'Narrow gap (Row 1 ↔ Row 2)',
+    pPWide:'Wide gap (Row 2 ↔ Row 3)', pPPlant:'Plant to plant distance',
+    pBedWidth:'Bed width', pFurrow:'Furrow width', pRowsBed:'Rows per bed', pBedPlant:'Plant to plant on bed',
+    lArea:'Total land area', lExtra:'Extra plants',
+    dSqSpacing:'Same distance in all directions. Every plant sits in a perfect grid.',
+    dRectRow:'Distance from the centre of one row to the centre of the next row.',
+    dRectPlant:'Distance from one plant to the next plant in the same row.',
+    dTriPlant:'Distance from a plant to its nearest neighbour. All 6 neighbours are this far.',
+    dPNarrow:'Small gap between the two rows that sit close together (inside one pair).',
+    dPWide:'Big gap from the last row of one pair to the first row of the next pair.',
+    dPPlant:'Distance between two plants in the same row.',
+    dBedWidth:'Width of the flat top of the raised bed — do not include the sloping sides.',
+    dFurrow:'Width of the water channel between two beds — from one bed edge to next bed edge.',
+    dRowsBed:'How many rows of plants on ONE raised bed.',
+    dBedPlant:'Distance between two plants in the same row on the bed.',
+    dArea:'The total land area you want to plant.',
+    dExtra:'Extra plants kept aside for nursery loss or transplanting failure.',
+    fSquare:'s × s',fRect:'row × plant',fTri:'0.866 × plant²',fPaired:'[(narrow+wide)÷2] × plant',fBed:'(bed+furrow) × plant ÷ rows',
+    miniSame:'same both ways', miniRowToRow:'row to row', miniPlantToPlant:'plant to plant',
+    miniRows:'rows per bed', miniArea:'your land', miniExtra:'+ extra', miniSameDist:'same distance',
+    centreToCentre:'centre → centre', waterChannel:'water channel', flatTop:'flat top of bed',
+    countOneBed:'count on ONE bed', oneRowPair:'one row on a pair', oneRowBed:'one row on the bed',
+    plantsYouNeed:'plants you need', extraLabel:'extra', forNursery:'for nursery / transplant loss',
+    totalAreaLabel:'total area',
+    unitCm:'cm', unitFt:'ft', unitInch:'inch', unitM:'m',
+    unitHa:'hectare', unitAcre:'acre', unitGuntha:'guntha', unitSqM:'sq.m', unitSqFt:'sq.ft',
+    unitHaShort:'ha', unitAcreShort2:'acre', unitGunthaShort:'guntha', unitSqMShort:'sq.m', unitSqFtShort:'sq.ft',
+    titleSquare:'Square — Row gap = Plant gap',
+    titleRect:'Rectangular — Row ≠ Plant',
+    titleTri:'Triangular — Zigzag criss-cross',
+    titlePaired:'Two-Line — Zigzag inside each pair',
+    titleBed:'Raised Bed',
+    dripLabel:'DRIP',
+    zoomHint:'Pinch to zoom', tapToZoom:'Tap to zoom',
+    perPlantTail:'per plant', unitM2:'m²',
+    downloadBtn:'Download image', downloadBtnLoading:'Preparing…'
+  },
+  hi:{
+    brandName:'पौध कैलकुलेटर', introEyebrow:'ICAR और SAU प्रमाणित',
+    introTitle:'जानें आपके खेत को कितने पौधे चाहिए।',
+    lbCrop:'फसल',lbLayout:'लेआउट',lbSpacing:'दूरी',lbField:'खेत',lbResult:'परिणाम',
+    cropPlaceholder:'— फसल चुनें —', searchPlaceholder:'फसल खोजें...', noResults:'कोई फसल नहीं मिली',
+    groupFruit:'फल', groupVeg:'सब्जियाँ', groupOther:'खेत फसलें',
+    cropMetaDefault:'फसल चुनें — ICAR / SAU दूरी स्वतः भर जाएगी।',
+    cropMetaRec:function(n,m){return 'अनुशंसित: <b>'+n+'</b> · <b>'+m+'</b>';},
+    mSquare:'वर्गाकार',mRect:'आयताकार',mTri:'त्रिकोणीय',mPaired:'दो-लाइन',mBed:'उठी क्यारी',
+    rTL:'कुल पौधे',rHL:'पौधे / हेक्टेयर',rAL:'पौधे / एकड़',rPL:'प्रति पौधा',
+    resPlants:'पौधे', resPlantsHa:'पौधे/हेक्टेयर', resPlantsAcre:'पौधे/एकड़', resM2Plant:'वर्ग मी/पौधा',
+    ft1:'🌾 ICAR / SAU आधारित',ft2:'स्थानीय कृषि अधिकारी से सत्यापित करें',
+    lgPl:'पौधा',lgBd:'क्यारी',lgWt:'पानी',lgDp:'ड्रिप',lgZz:'ज़िगज़ैग',
+    pSqSpacing:'दूरी',pRectRow:'कतार से कतार दूरी',pRectPlant:'पौधे से पौधे दूरी',pTriPlant:'पौधे से पौधे दूरी',pPNarrow:'संकरी दूरी (कतार 1↔2)',pPWide:'चौड़ी दूरी (कतार 2↔3)',pPPlant:'पौधे से पौधे दूरी',pBedWidth:'क्यारी चौड़ाई',pFurrow:'नाली चौड़ाई',pRowsBed:'प्रति क्यारी कतारें',pBedPlant:'क्यारी पर पौधे से पौधे',lArea:'कुल भूमि क्षेत्र',lExtra:'अतिरिक्त पौधे',
+    dSqSpacing:'सभी दिशाओं में समान दूरी। हर पौधा पूर्ण ग्रिड में बैठता है।',
+    dRectRow:'एक कतार के केंद्र से अगली कतार के केंद्र तक की दूरी।',
+    dRectPlant:'एक ही कतार में एक पौधे से अगले पौधे तक की दूरी।',
+    dTriPlant:'एक पौधे से उसके निकटतम पड़ोसी तक दूरी। सभी 6 पड़ोसी इतनी दूर हैं।',
+    dPNarrow:'उन दो कतारों के बीच की छोटी दूरी जो पास-पास बैठी हैं।',
+    dPWide:'एक जोड़ी की आखिरी कतार से अगली जोड़ी की पहली कतार तक की बड़ी दूरी।',
+    dPPlant:'एक ही कतार में दो पौधों के बीच की दूरी।',
+    dBedWidth:'उठी क्यारी की सपाट ऊपरी चौड़ाई — ढलान शामिल न करें।',
+    dFurrow:'दो क्यारियों के बीच पानी की नाली की चौड़ाई।',
+    dRowsBed:'एक उठी क्यारी पर पौधों की कितनी कतारें हैं।',
+    dBedPlant:'क्यारी पर एक ही कतार में दो पौधों के बीच की दूरी।',
+    dArea:'जितनी जमीन पर रोपण करना है उसका कुल क्षेत्र।',
+    dExtra:'नर्सरी नुकसान या रोपाई विफलता के लिए अलग रखे गए पौधे।',
+    fSquare:'s × s',fRect:'कतार × पौधा',fTri:'0.866 × पौधा²',fPaired:'[(सं+चौ)÷2] × पौधा',fBed:'(क्यारी+नाली) × पौधा ÷ कतारें',
+    miniSame:'दोनों में समान', miniRowToRow:'कतार से कतार', miniPlantToPlant:'पौधे से पौधे',
+    miniRows:'क्यारी पर कतारें', miniArea:'आपकी जमीन', miniExtra:'+ अतिरिक्त', miniSameDist:'समान दूरी',
+    centreToCentre:'केंद्र → केंद्र', waterChannel:'पानी की नाली', flatTop:'क्यारी की सपाट ऊपरी सतह',
+    countOneBed:'एक क्यारी पर गिनें', oneRowPair:'जोड़ी पर एक कतार', oneRowBed:'क्यारी पर एक कतार',
+    plantsYouNeed:'आपको चाहिए पौधे', extraLabel:'अतिरिक्त', forNursery:'नर्सरी / रोपाई नुकसान के लिए',
+    totalAreaLabel:'कुल क्षेत्रफल',
+    unitCm:'से.मी', unitFt:'फुट', unitInch:'इंच', unitM:'मीटर',
+    unitHa:'हेक्टेयर', unitAcre:'एकड़', unitGuntha:'गुंठा', unitSqM:'वर्ग मी', unitSqFt:'वर्ग फुट',
+    unitHaShort:'हेक्टेयर', unitAcreShort2:'एकड़', unitGunthaShort:'गुंठा', unitSqMShort:'वर्ग मी', unitSqFtShort:'वर्ग फुट',
+    titleSquare:'वर्गाकार — कतार = पौधा दूरी',
+    titleRect:'आयताकार — कतार ≠ पौधा',
+    titleTri:'त्रिकोणीय — ज़िगज़ैग क्रिस-क्रॉस',
+    titlePaired:'दो-लाइन — प्रत्येक जोड़ी में ज़िगज़ैग',
+    titleBed:'उठी क्यारी',
+    dripLabel:'ड्रिप',
+    zoomHint:'ज़ूम करने के लिए पिंच करें', tapToZoom:'ज़ूम करने के लिए टैप करें',
+    perPlantTail:'प्रति पौधा', unitM2:'वर्ग मी',
+    downloadBtn:'छवि डाउनलोड करें', downloadBtnLoading:'तैयार हो रहा है…'
+  },
+  gu:{
+    brandName:'છોડ કેલ્ક્યુલેટર', introEyebrow:'ICAR અને SAU પ્રમાણિત',
+    introTitle:'તમારા ખેતરને કેટલા છોડ જોઈએ તે જાણો.',
+    lbCrop:'પાક',lbLayout:'ગોઠવણ',lbSpacing:'અંતર',lbField:'ખેતર',lbResult:'પરિણામ',
+    cropPlaceholder:'— પાક પસંદ કરો —', searchPlaceholder:'પાક શોધો...', noResults:'કોઈ પાક મળ્યો નથી',
+    groupFruit:'ફળ', groupVeg:'શાકભાજી', groupOther:'ખેતર પાક',
+    cropMetaDefault:'પાક પસંદ કરો — ICAR / SAU અંતર આપોઆપ ભરાશે.',
+    cropMetaRec:function(n,m){return 'ભલામણ: <b>'+n+'</b> · <b>'+m+'</b>';},
+    mSquare:'ચોરસ',mRect:'લંબચોરસ',mTri:'ત્રિકોણાકાર',mPaired:'બે-લાઇન',mBed:'ઊંચો બેડ',
+    rTL:'કુલ છોડ',rHL:'છોડ / હેક્ટર',rAL:'છોડ / એકર',rPL:'એક છોડ',
+    resPlants:'છોડ', resPlantsHa:'છોડ/હેક્ટર', resPlantsAcre:'છોડ/એકર', resM2Plant:'ચો.મી/છોડ',
+    ft1:'🌾 ICAR / SAU આધારિત',ft2:'સ્થાનિક કૃષિ અધિકારી સાથે ચકાસો',
+    lgPl:'છોડ',lgBd:'બેડ',lgWt:'પાણી',lgDp:'ડ્રિપ',lgZz:'ઝિગઝેગ',
+    pSqSpacing:'અંતર',pRectRow:'હાર થી હાર અંતર',pRectPlant:'છોડ થી છોડ અંતર',pTriPlant:'છોડ થી છોડ અંતર',pPNarrow:'સાંકડું અંતર (હાર 1↔2)',pPWide:'પહોળું અંતર (હાર 2↔3)',pPPlant:'છોડ થી છોડ અંતર',pBedWidth:'બેડ પહોળાઈ',pFurrow:'ફરો પહોળાઈ',pRowsBed:'બેડ દીઠ હાર',pBedPlant:'બેડ પર છોડ થી છોડ',lArea:'કુલ ક્ષેત્રફળ',lExtra:'વધારાના છોડ',
+    dSqSpacing:'બધી દિશામાં સરખું અંતર. દરેક છોડ પૂર્ણ ગ્રિડમાં બેસે છે.',
+    dRectRow:'એક હારના મધ્ય થી બીજી હારના મધ્ય સુધીનું અંતર.',
+    dRectPlant:'એક જ હારમાં એક છોડ થી બીજા છોડ સુધીનું અંતર.',
+    dTriPlant:'એક છોડ થી તેના નજીકના પડોશી સુધીનું અંતર. બધા 6 પડોશી આટલા જ દૂર છે.',
+    dPNarrow:'જે બે હાર નજીક બાજુમાં બેઠી છે તેમની વચ્ચેનું નાનું અંતર.',
+    dPWide:'એક જોડીની છેલ્લી હાર થી બીજી જોડીની પહેલી હાર સુધીનું મોટું અંતર.',
+    dPPlant:'એક જ હારમાં બે છોડ વચ્ચેનું અંતર.',
+    dBedWidth:'ઊંચા બેડની સપાટ ઉપરની પહોળાઈ — ઢોળાવ ગણવો નહીં.',
+    dFurrow:'બે બેડ વચ્ચેના પાણીના ફરાની પહોળાઈ.',
+    dRowsBed:'એક ઊંચા બેડ પર છોડની કેટલી હાર છે.',
+    dBedPlant:'બેડ પર એક જ હારમાં બે છોડ વચ્ચેનું અંતર.',
+    dArea:'જેટલી જમીનમાં વાવેતર કરવું છે તેનું કુલ ક્ષેત્રફળ.',
+    dExtra:'નર્સરી નુકસાન કે રોપણી નિષ્ફળતા માટે બાજુ પર રાખેલા છોડ.',
+    fSquare:'s × s',fRect:'હાર × છોડ',fTri:'0.866 × છોડ²',fPaired:'[(સાં+પહો)÷2] × છોડ',fBed:'(બેડ+ફરો) × છોડ ÷ હાર',
+    miniSame:'બંનેમાં સરખું', miniRowToRow:'હાર થી હાર', miniPlantToPlant:'છોડ થી છોડ',
+    miniRows:'બેડ પર હાર', miniArea:'તમારી જમીન', miniExtra:'+ વધારાના', miniSameDist:'સરખું અંતર',
+    centreToCentre:'મધ્ય → મધ્ય', waterChannel:'પાણીનો ફરો', flatTop:'બેડની સપાટ ઉપરની સપાટી',
+    countOneBed:'એક બેડ પર ગણો', oneRowPair:'જોડી પર એક હાર', oneRowBed:'બેડ પર એક હાર',
+    plantsYouNeed:'તમને જોઈતા છોડ', extraLabel:'વધારાના', forNursery:'નર્સરી / રોપણી નુકસાન માટે',
+    totalAreaLabel:'કુલ ક્ષેત્રફળ',
+    unitCm:'સે.મી', unitFt:'ફૂટ', unitInch:'ઇંચ', unitM:'મીટર',
+    unitHa:'હેક્ટર', unitAcre:'એકર', unitGuntha:'ગુંઠા', unitSqM:'ચો.મી', unitSqFt:'ચો.ફૂટ',
+    unitHaShort:'હેક્ટર', unitAcreShort2:'એકર', unitGunthaShort:'ગુંઠા', unitSqMShort:'ચો.મી', unitSqFtShort:'ચો.ફૂટ',
+    titleSquare:'ચોરસ — હાર = છોડ અંતર',
+    titleRect:'લંબચોરસ — હાર ≠ છોડ',
+    titleTri:'ત્રિકોણાકાર — ઝિગઝેગ ક્રિસ-ક્રોસ',
+    titlePaired:'બે-લાઇન — દરેક જોડીમાં ઝિગઝેગ',
+    titleBed:'ઊંચો બેડ',
+    dripLabel:'ડ્રિપ',
+    zoomHint:'ઝૂમ કરવા પિંચ કરો', tapToZoom:'ઝૂમ કરવા ટૅપ કરો',
+    perPlantTail:'એક છોડ દીઠ', unitM2:'ચો.મી',
+    downloadBtn:'છબી ડાઉનલોડ કરો', downloadBtnLoading:'તૈયાર થાય છે…'
+  }
+};
+
+var UNIT_KEY = {cm:'unitCm', ft:'unitFt', inch:'unitInch', m:'unitM', ha:'unitHaShort', acre:'unitAcreShort2', guntha:'unitGunthaShort', sqm:'unitSqMShort', sqft:'unitSqFtShort'};
+function unitLabel(u){var t=T[state.lang];var k=UNIT_KEY[u];return (k&&t[k])?t[k]:u;}
+
+var state={lang:'en',method:'rect',cropId:null,sqSpacing:200,sqUnit:'cm',rectRow:60,rectRowU:'cm',rectPlant:40,rectPlantU:'cm',triPlant:150,triUnit:'cm',pNarrow:60,pNarrowU:'cm',pWide:120,pWideU:'cm',pPlant:45,pPlantU:'cm',bedWidth:120,bedWidthU:'cm',furrowWidth:30,furrowWidthU:'cm',rowsPerBed:3,bedPlant:20,bedPlantU:'cm',area:1,areaUnit:'ha',extraPct:5};
+
+function $(id){return document.getElementById(id);}
+function nf(n){if(!isFinite(n))return '—';return Math.round(n).toLocaleString('en-IN');}
+function nf2(n){if(!isFinite(n))return '—';return n.toLocaleString('en-IN',{maximumFractionDigits:2});}
+function toM(v,u){return u==='cm'?v/100:u==='ft'?v*0.3048:u==='inch'?v*0.0254:v;}
+function toHa(v,u){if(u==='ha')return v;if(u==='acre')return v*0.404686;if(u==='sqm')return v/10000;if(u==='sqft')return v*0.0000092903;if(u==='guntha')return v*0.0101171;return v;}
+function cropName(c){return c[state.lang==='gu'?'gu':state.lang==='hi'?'h':'g'];}
+function methodLabel(m){var t=T[state.lang];return {square:t.mSquare,rect:t.mRect,tri:t.mTri,paired:t.mPaired,bed:t.mBed}[m]||m;}
+
+var DEFS='<defs>'+
+  '<radialGradient id="leafG" cx="32%" cy="26%" r="78%"><stop offset="0%" stop-color="#bbf7d0"/><stop offset="30%" stop-color="#86efac"/><stop offset="65%" stop-color="#22c55e"/><stop offset="100%" stop-color="#15803d"/></radialGradient>'+
+  '<radialGradient id="leafEdge" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#15803d" stop-opacity="0"/><stop offset="80%" stop-color="#14532d" stop-opacity="0.32"/><stop offset="100%" stop-color="#052e16" stop-opacity="0.55"/></radialGradient>'+
+  '<radialGradient id="leafGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4ade80" stop-opacity="0.28"/><stop offset="70%" stop-color="#4ade80" stop-opacity="0.04"/><stop offset="100%" stop-color="#4ade80" stop-opacity="0"/></radialGradient>'+
+  '<linearGradient id="bedTopG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f0d4a8"/><stop offset="45%" stop-color="#dbb282"/><stop offset="100%" stop-color="#b8834e"/></linearGradient>'+
+  '<linearGradient id="bedWallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8b5a2b"/><stop offset="100%" stop-color="#3d2510"/></linearGradient>'+
+  '<linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4eaf8"/><stop offset="35%" stop-color="#9dc9e8"/><stop offset="100%" stop-color="#4a8ec2"/></linearGradient>'+
+  '<linearGradient id="waterSheen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.65"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0.08"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></linearGradient>'+
+  '<linearGradient id="dripG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6"/><stop offset="50%" stop-color="#1e40af"/><stop offset="100%" stop-color="#1e3a8a"/></linearGradient>'+
+  '<marker id="aOr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#d97706"/></marker>'+
+  '<marker id="aOrS" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#d97706"/></marker>'+
+  '<marker id="aGr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#15803d"/></marker>'+
+  '<marker id="aGrS" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#15803d"/></marker>'+
+  '<marker id="aBl" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e40af"/></marker>'+
+  '<marker id="aBlS" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#1e40af"/></marker>'+
+  '<marker id="aPu" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6d28d9"/></marker>'+
+  '<marker id="aPuS" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#6d28d9"/></marker>'+
+'</defs>';
+
+function plant(x,y,r){
+  var s = '';
+  s += '<circle cx="'+x+'" cy="'+y+'" r="'+(r*1.6).toFixed(1)+'" fill="url(#leafGlow)"/>';
+  s += '<ellipse cx="'+x+'" cy="'+(y+r*0.88).toFixed(1)+'" rx="'+(r*1.1).toFixed(1)+'" ry="'+(r*0.32).toFixed(1)+'" fill="#052e16" opacity="0.2"/>';
+  s += '<ellipse cx="'+x+'" cy="'+(y+r*0.9).toFixed(1)+'" rx="'+(r*0.65).toFixed(1)+'" ry="'+(r*0.16).toFixed(1)+'" fill="#052e16" opacity="0.32"/>';
+  if (r >= 9){
+    var lw = r * 0.5, lh = r * 1.15;
+    s += '<path d="M '+x+' '+(y-r*0.35)+' Q '+(x-lw)+' '+(y-lh*1.1)+' '+x+' '+(y-lh*1.3)+' Q '+(x+lw)+' '+(y-lh*1.1)+' '+x+' '+(y-r*0.35)+' Z" fill="#0f5c29" opacity="0.9"/>';
+    s += '<path d="M '+x+' '+(y-r*0.2)+' Q '+(x-lh*0.8)+' '+(y-lh*0.85)+' '+(x-lh*1.0)+' '+(y-lh*0.12)+' Q '+(x-lh*0.5)+' '+(y-lh*0.38)+' '+x+' '+(y-r*0.2)+' Z" fill="#15803d" opacity="0.85"/>';
+    s += '<path d="M '+x+' '+(y-r*0.2)+' Q '+(x+lh*0.8)+' '+(y-lh*0.85)+' '+(x+lh*1.0)+' '+(y-lh*0.12)+' Q '+(x+lh*0.5)+' '+(y-lh*0.38)+' '+x+' '+(y-r*0.2)+' Z" fill="#16a34a" opacity="0.85"/>';
+    s += '<path d="M '+(x-r*0.28)+' '+y+' Q '+(x-lh*1.05)+' '+(y-lw*1.05)+' '+(x-lh*1.15)+' '+y+' Q '+(x-lh*1.05)+' '+(y+lw*1.05)+' '+(x-r*0.28)+' '+y+' Z" fill="#22c55e" opacity="0.65"/>';
+    s += '<path d="M '+(x+r*0.28)+' '+y+' Q '+(x+lh*1.05)+' '+(y-lw*1.05)+' '+(x+lh*1.15)+' '+y+' Q '+(x+lh*1.05)+' '+(y+lw*1.05)+' '+(x+r*0.28)+' '+y+' Z" fill="#22c55e" opacity="0.65"/>';
+  }
+  s += '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="url(#leafG)"/>';
+  s += '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="url(#leafEdge)"/>';
+  s += '<ellipse cx="'+(x-r*0.3).toFixed(1)+'" cy="'+(y-r*0.35).toFixed(1)+'" rx="'+(r*0.42).toFixed(1)+'" ry="'+(r*0.32).toFixed(1)+'" fill="#ffffff" opacity="0.42"/>';
+  s += '<circle cx="'+(x-r*0.4).toFixed(1)+'" cy="'+(y-r*0.44).toFixed(1)+'" r="'+(r*0.14).toFixed(1)+'" fill="#ffffff" opacity="0.95"/>';
+  s += '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="none" stroke="#0f5c29" stroke-width="1.05" opacity="0.55"/>';
+  return s;
+}
+function arrowH(x1,x2,y,label,color,mk){
+  var c=color, mkc=mk||'aOr', mx=(x1+x2)/2;
+  var tw = String(label).length*5.6+14, bh = 19;
+  return '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+c+'" stroke-width="1.7" marker-start="url(#'+mkc+'S)" marker-end="url(#'+mkc+')"/>'+
+    '<line x1="'+x1+'" y1="'+(y-5.5)+'" x2="'+x1+'" y2="'+(y+5.5)+'" stroke="'+c+'" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>'+
+    '<line x1="'+x2+'" y1="'+(y-5.5)+'" x2="'+x2+'" y2="'+(y+5.5)+'" stroke="'+c+'" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>'+
+    '<rect x="'+(mx-tw/2)+'" y="'+(y-bh-6)+'" width="'+tw+'" height="'+bh+'" rx="'+(bh/2)+'" fill="#fff" stroke="'+c+'" stroke-width="1.15"/>'+
+    '<text x="'+mx+'" y="'+(y-bh-6+bh/2+3.8)+'" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.2" font-weight="700" fill="'+c+'">'+label+'</text>';
+}
+function arrowV(y1,y2,x,label,color,mk){
+  var c=color, mkc=mk||'aOr', my=(y1+y2)/2;
+  var tw = String(label).length*5.6+14, bh = 19, bx=x-10-tw;
+  return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" stroke="'+c+'" stroke-width="1.7" marker-start="url(#'+mkc+'S)" marker-end="url(#'+mkc+')"/>'+
+    '<line x1="'+(x-5.5)+'" y1="'+y1+'" x2="'+(x+5.5)+'" y2="'+y1+'" stroke="'+c+'" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>'+
+    '<line x1="'+(x-5.5)+'" y1="'+y2+'" x2="'+(x+5.5)+'" y2="'+y2+'" stroke="'+c+'" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>'+
+    '<rect x="'+bx+'" y="'+(my-bh/2)+'" width="'+tw+'" height="'+bh+'" rx="'+(bh/2)+'" fill="#fff" stroke="'+c+'" stroke-width="1.15"/>'+
+    '<text x="'+(bx+tw/2)+'" y="'+(my+3.8)+'" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.2" font-weight="700" fill="'+c+'">'+label+'</text>';
+}
+function dripLine(x1,x2,y){
+  var s = '';
+  s += '<line x1="'+x1+'" y1="'+(y+1.2)+'" x2="'+x2+'" y2="'+(y+1.2)+'" stroke="#000" stroke-width="3.6" opacity="0.16" stroke-linecap="round"/>';
+  s += '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#1e3a8a" stroke-width="4.4" stroke-linecap="round"/>';
+  s += '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="url(#dripG)" stroke-width="3" stroke-linecap="round"/>';
+  s += '<line x1="'+(x1+3)+'" y1="'+(y-0.8)+'" x2="'+(x2-3)+'" y2="'+(y-0.8)+'" stroke="#93c5fd" stroke-width="0.8" opacity="0.72" stroke-linecap="round"/>';
+  for (var px = x1+40; px < x2-20; px += 70){
+    s += '<circle cx="'+px+'" cy="'+y+'" r="5" fill="#60a5fa" opacity="0.22"/>';
+    s += '<circle cx="'+px+'" cy="'+y+'" r="3.8" fill="#1e40af"/>';
+    s += '<circle cx="'+px+'" cy="'+y+'" r="2.2" fill="#60a5fa"/>';
+    s += '<circle cx="'+(px-0.8)+'" cy="'+(y-1)+'" r="0.9" fill="#fff" opacity="0.85"/>';
+  }
+  return s;
+}
+
+function miniSpacing(t){
+  var v = state.sqSpacing+' '+unitLabel(state.sqUnit);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<line x1="115" y1="75" x2="205" y2="75" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3"/>'+
+    '<line x1="115" y1="145" x2="205" y2="145" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3"/>'+
+    plant(135,75,14)+plant(185,75,14)+plant(135,145,14)+plant(185,145,14)+
+    arrowV(75,145,90,v,'#d97706','aOr')+
+    arrowH(135,185,183,v,'#15803d','aGr')+
+    '<text x="160" y="42" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="700" fill="#78716c">'+t.miniSame+'</text>'+
+  '</svg>';
+}
+function miniRowToRow(t){
+  var v = state.rectRow+' '+unitLabel(state.rectRowU);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<line x1="100" y1="75" x2="250" y2="75" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3"/>'+
+    '<line x1="100" y1="150" x2="250" y2="150" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3"/>'+
+    plant(120,75,13)+plant(170,75,13)+plant(220,75,13)+
+    plant(120,150,13)+plant(170,150,13)+plant(220,150,13)+
+    arrowV(75,150,68,v,'#d97706','aOr')+
+    '<text x="62" y="70" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="10" font-weight="700" fill="#78716c">R1</text>'+
+    '<text x="62" y="155" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="10" font-weight="700" fill="#78716c">R2</text>'+
+    '<text x="175" y="200" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="600" fill="#78716c">'+t.miniRowToRow+'</text>'+
+  '</svg>';
+}
+function miniPlantToPlant(t){
+  var v = state.rectPlant+' '+unitLabel(state.rectPlantU);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<line x1="50" y1="110" x2="240" y2="110" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3"/>'+
+    plant(85,110,17)+plant(150,110,17)+plant(215,110,17)+
+    '<circle cx="85" cy="110" r="2.4" fill="#15803d"/>'+
+    '<circle cx="150" cy="110" r="2.4" fill="#15803d"/>'+
+    arrowH(85,150,162,v,'#15803d','aGr')+
+    '<text x="117" y="88" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10" font-weight="600" fill="#15803d" opacity="0.85">'+t.centreToCentre+'</text>'+
+    '<text x="150" y="200" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="600" fill="#78716c">'+t.miniPlantToPlant+'</text>'+
+  '</svg>';
+}
+function miniTri(t){
+  var v = state.triPlant+' '+unitLabel(state.triUnit);
+  var y1=72, y2=128, y3=178;
+  var xA=[75,155,235], xB=[115,195];
+  var s = '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>';
+  s += '<line x1="60" y1="'+y1+'" x2="255" y2="'+y1+'" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.55"/>';
+  s += '<line x1="60" y1="'+y2+'" x2="255" y2="'+y2+'" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.55"/>';
+  s += '<line x1="60" y1="'+y3+'" x2="255" y2="'+y3+'" stroke="#d6d3cc" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.55"/>';
+  var zz = 'M '+xA[0]+' '+y1;
+  for (var i=0;i<xB.length;i++){ zz += ' L '+xB[i]+' '+y2+' L '+xA[i+1]+' '+y1; zz += ' L '+xB[i]+' '+y2+' L '+xA[i+1]+' '+y3; if(i<xB.length-1) zz += ' L '+xB[i+1]+' '+y2+' L '+xA[i+1]+' '+y3; }
+  s += '<path d="'+zz+'" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.72" stroke-linejoin="round"/>';
+  s += plant(xA[0],y1,11)+plant(xA[1],y1,11)+plant(xA[2],y1,11);
+  s += plant(xB[0],y2,11)+plant(xB[1],y2,11);
+  s += plant(xA[0],y3,11)+plant(xA[1],y3,11)+plant(xA[2],y3,11);
+  s += arrowH(xA[0],xA[1],y3+32,v,'#15803d','aGr');
+  s += '</svg>';
+  return s;
+}
+function miniNarrow(t){
+  var v = state.pNarrow+' '+unitLabel(state.pNarrowU);
+  var s = '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>';
+  s += '<rect x="72" y="46" width="190" height="52" rx="8" fill="#dcfce7" fill-opacity="0.65" stroke="#86efac" stroke-width="1.2" stroke-dasharray="4 3"/>';
+  s += '<rect x="72" y="136" width="190" height="52" rx="8" fill="#dcfce7" fill-opacity="0.2" stroke="#86efac" stroke-width="1.2" stroke-dasharray="4 3"/>';
+  s += '<line x1="76" y1="62" x2="258" y2="62" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.7"/>';
+  s += '<line x1="76" y1="82" x2="258" y2="82" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.7"/>';
+  s += '<line x1="76" y1="152" x2="258" y2="152" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.4"/>';
+  s += '<line x1="76" y1="172" x2="258" y2="172" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.4"/>';
+  s += plant(92,62,9)+plant(138,62,9)+plant(184,62,9)+plant(230,62,9);
+  s += plant(115,82,9)+plant(161,82,9)+plant(207,82,9);
+  s += plant(92,152,8)+plant(138,152,8)+plant(184,152,8)+plant(230,152,8);
+  s += plant(115,172,8)+plant(161,172,8)+plant(207,172,8);
+  s += arrowV(62,82,60,v,'#15803d','aGr');
+  s += '<text x="56" y="64" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#78716c">R1</text>';
+  s += '<text x="56" y="84" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#78716c">R2</text>';
+  s += '<text x="56" y="154" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#a8a29e">R3</text>';
+  s += '<text x="56" y="174" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#a8a29e">R4</text>';
+  s += '<text x="165" y="206" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="700" fill="#15803d">R1 ↔ R2</text>';
+  s += '</svg>';
+  return s;
+}
+function miniWide(t){
+  var v = state.pWide+' '+unitLabel(state.pWideU);
+  var s = '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>';
+  s += '<rect x="72" y="46" width="190" height="44" rx="8" fill="#dcfce7" fill-opacity="0.2" stroke="#86efac" stroke-width="1.2" stroke-dasharray="4 3"/>';
+  s += '<rect x="72" y="140" width="190" height="44" rx="8" fill="#dcfce7" fill-opacity="0.2" stroke="#86efac" stroke-width="1.2" stroke-dasharray="4 3"/>';
+  s += '<line x1="76" y1="61" x2="258" y2="61" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.4"/>';
+  s += '<line x1="76" y1="78" x2="258" y2="78" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.7"/>';
+  s += '<line x1="76" y1="152" x2="258" y2="152" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.7"/>';
+  s += '<line x1="76" y1="169" x2="258" y2="169" stroke="#d6d3cc" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.4"/>';
+  s += plant(92,61,8)+plant(138,61,8)+plant(184,61,8)+plant(230,61,8);
+  s += plant(92,152,8)+plant(138,152,8)+plant(184,152,8)+plant(230,152,8);
+  s += plant(115,169,8)+plant(161,169,8)+plant(207,169,8);
+  s += plant(115,78,9)+plant(161,78,9)+plant(207,78,9);
+  s += arrowV(78,152,60,v,'#1e40af','aBl');
+  s += '<text x="56" y="63" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#a8a29e">R1</text>';
+  s += '<text x="56" y="80" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#78716c">R2</text>';
+  s += '<text x="56" y="154" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#78716c">R3</text>';
+  s += '<text x="56" y="171" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#a8a29e">R4</text>';
+  s += '<text x="165" y="206" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="700" fill="#1e40af">R2 ↔ R3</text>';
+  s += '</svg>';
+  return s;
+}
+function miniPPlant(t){
+  var v = state.pPlant+' '+unitLabel(state.pPlantU);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<rect x="45" y="72" width="190" height="80" rx="8" fill="#dcfce7" fill-opacity="0.4" stroke="#86efac" stroke-width="1.2" stroke-dasharray="4 3"/>'+
+    '<line x1="50" y1="112" x2="230" y2="112" stroke="#d6d3cc" stroke-width="0.7" stroke-dasharray="3 3"/>'+
+    plant(85,112,14)+plant(140,112,14)+plant(195,112,14)+
+    arrowH(85,140,172,v,'#d97706','aOr')+
+    '<text x="140" y="58" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.oneRowPair+'</text>'+
+    '<text x="140" y="204" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="11" font-weight="600" fill="#78716c">'+t.miniPlantToPlant+'</text>'+
+  '</svg>';
+}
+function miniBedWidth(t){
+  var v = state.bedWidth+' '+unitLabel(state.bedWidthU);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<rect x="40" y="90" width="200" height="24" rx="6" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.4"/>'+
+    '<rect x="40" y="110" width="200" height="16" fill="url(#bedWallG)" rx="4"/>'+
+    '<line x1="55" y1="96" x2="225" y2="96" stroke="#a06a3a" stroke-width="0.5" opacity="0.32"/>'+
+    '<line x1="55" y1="102" x2="225" y2="102" stroke="#a06a3a" stroke-width="0.5" opacity="0.32"/>'+
+    plant(80,80,12)+plant(140,80,12)+plant(200,80,12)+
+    arrowH(40,240,52,v,'#6d28d9','aPu')+
+    '<line x1="40" y1="52" x2="40" y2="84" stroke="#6d28d9" stroke-width="0.9" stroke-dasharray="3 3" opacity="0.45"/>'+
+    '<line x1="240" y1="52" x2="240" y2="84" stroke="#6d28d9" stroke-width="0.9" stroke-dasharray="3 3" opacity="0.45"/>'+
+    '<text x="140" y="200" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.flatTop+'</text>'+
+  '</svg>';
+}
+function miniFurrow(t){
+  var v = state.furrowWidth+' '+unitLabel(state.furrowWidthU);
+  var s = '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>';
+  s += '<rect x="20" y="96" width="86" height="20" rx="5" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.4"/>';
+  s += '<rect x="20" y="112" width="86" height="16" fill="url(#bedWallG)" rx="4"/>';
+  s += plant(45,68,9)+plant(80,68,9);
+  s += '<rect x="106" y="86" width="68" height="30" rx="5" fill="url(#waterG)" stroke="#0369a1" stroke-width="1.3"/>';
+  s += '<rect x="106" y="86" width="68" height="11" rx="5" fill="url(#waterSheen)"/>';
+  s += '<path d="M 115 95 Q 130 92 140 95 T 165 95" stroke="#ffffff" stroke-width="1.1" fill="none" opacity="0.72"/>';
+  s += '<path d="M 115 103 Q 130 100 140 103 T 165 103" stroke="#ffffff" stroke-width="1.1" fill="none" opacity="0.5"/>';
+  s += '<text x="140" y="108" text-anchor="middle" font-size="13">💧</text>';
+  s += '<rect x="174" y="96" width="86" height="20" rx="5" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.4"/>';
+  s += '<rect x="174" y="112" width="86" height="16" fill="url(#bedWallG)" rx="4"/>';
+  s += plant(199,68,9)+plant(234,68,9);
+  s += arrowH(106,174,52,v,'#1e40af','aBl');
+  s += '<line x1="106" y1="52" x2="106" y2="86" stroke="#1e40af" stroke-width="0.9" stroke-dasharray="3 3" opacity="0.45"/>';
+  s += '<line x1="174" y1="52" x2="174" y2="86" stroke="#1e40af" stroke-width="0.9" stroke-dasharray="3 3" opacity="0.45"/>';
+  s += '<text x="140" y="200" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.waterChannel+'</text>';
+  s += '</svg>';
+  return s;
+}
+function miniBedRows(t){
+  var R = Math.max(1, state.rowsPerBed);
+  var s = '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>';
+  s += '<rect x="55" y="48" width="180" height="108" rx="7" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.5"/>';
+  s += '<rect x="55" y="150" width="180" height="16" fill="url(#bedWallG)" rx="4"/>';
+  for (var t1=1;t1<=3;t1++){var ly=48+(t1*108)/4;s += '<line x1="63" y1="'+ly+'" x2="227" y2="'+ly+'" stroke="#a06a3a" stroke-width="0.5" opacity="0.28"/>';}
+  var rowGap = R===1 ? 0 : (85)/(R-1);
+  for (var i=0;i<R;i++){var y = R===1 ? 102 : 62+i*rowGap;var off = (i%2===1) ? 12 : 0;s += plant(85+off,y,8)+plant(122+off,y,8)+plant(159+off,y,8)+plant(196+off,y,8);}
+  for (var j=0;j<R;j++){var yb = R===1 ? 102 : 62+j*rowGap;s += '<text x="48" y="'+(yb+3.5)+'" text-anchor="end" font-family="Noto Sans Gujarati, sans-serif" font-size="9.5" font-weight="700" fill="#78716c">'+(j+1)+'</text>';}
+  var txt = R+' '+t.miniRows;
+  var tw = txt.length*5.4+16;
+  s += '<rect x="'+(145-tw/2)+'" y="22" width="'+tw+'" height="20" rx="10" fill="#fff" stroke="#6d28d9" stroke-width="1.15"/>';
+  s += '<text x="145" y="36" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10" font-weight="700" fill="#6d28d9">'+txt+'</text>';
+  s += '<text x="145" y="200" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.countOneBed+'</text>';
+  s += '</svg>';
+  return s;
+}
+function miniBedPlant(t){
+  var v = state.bedPlant+' '+unitLabel(state.bedPlantU);
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<rect x="35" y="90" width="210" height="24" rx="6" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.5"/>'+
+    '<rect x="35" y="110" width="210" height="16" fill="url(#bedWallG)" rx="4"/>'+
+    plant(85,68,13)+plant(140,68,13)+plant(195,68,13)+
+    arrowH(85,140,178,v,'#d97706','aOr')+
+    '<text x="140" y="52" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.oneRowBed+'</text>'+
+  '</svg>';
+}
+function miniArea(t){
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    '<rect x="65" y="55" width="150" height="100" rx="10" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>'+
+    '<line x1="65" y1="88" x2="215" y2="88" stroke="#86efac" stroke-width="0.9" stroke-dasharray="4 3" opacity="0.55"/>'+
+    '<line x1="65" y1="122" x2="215" y2="122" stroke="#86efac" stroke-width="0.9" stroke-dasharray="4 3" opacity="0.55"/>'+
+    '<text x="140" y="110" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="14" font-weight="700" fill="#15803d">'+t.miniArea+'</text>'+
+    arrowH(65,215,186,t.totalAreaLabel,'#15803d','aGr')+
+  '</svg>';
+}
+function miniExtra(t){
+  var v = '+'+state.extraPct+'%';
+  return '<svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid meet">'+DEFS+
+    '<rect width="280" height="220" fill="#fefcf5"/>'+
+    plant(52,105,13)+plant(98,105,13)+plant(144,105,13)+plant(190,105,13)+plant(238,105,13)+
+    '<circle cx="238" cy="105" r="24" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-dasharray="4 3" opacity="0.65"/>'+
+    '<text x="118" y="72" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.plantsYouNeed+'</text>'+
+    '<text x="238" y="72" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="700" fill="#7c3aed">'+t.extraLabel+'</text>'+
+    '<rect x="212" y="148" width="52" height="24" rx="12" fill="#fff" stroke="#7c3aed" stroke-width="1.35"/>'+
+    '<text x="238" y="164" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="12" font-weight="700" fill="#7c3aed">'+v+'</text>'+
+    '<line x1="52" y1="148" x2="196" y2="148" stroke="#eae7e0" stroke-width="1"/>'+
+    '<text x="124" y="184" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="10.5" font-weight="600" fill="#78716c">'+t.forNursery+'</text>'+
+  '</svg>';
+}
+
+var csOpen = false;
+function buildDropdownList(){
+  var t = T[state.lang];
+  var searchEl = $('csSearchInput');
+  var search = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  var groups = [{k:'fruit', l:t.groupFruit},{k:'veg', l:t.groupVeg},{k:'other', l:t.groupOther}];
+  var html = '', total = 0;
+  for (var g = 0; g < groups.length; g++){
+    var items = [];
+    for (var i = 0; i < CROPS.length; i++){
+      if (CROPS[i].cat !== groups[g].k) continue;
+      var name = cropName(CROPS[i]).toLowerCase();
+      if (search && name.indexOf(search) === -1) continue;
+      items.push({idx:i, name:cropName(CROPS[i])});
+    }
+    if (items.length === 0) continue;
+    html += '<div class="cs-group"><span class="grp-ico">'+CAT_ICONS[groups[g].k]+'</span>'+groups[g].l+'</div>';
+    for (var j = 0; j < items.length; j++){
+      var it = items[j]; total++;
+      var sel = (state.cropId === it.idx) ? ' selected' : '';
+      html += '<div class="cs-option'+sel+'" data-idx="'+it.idx+'"><span class="opt-ico">'+CAT_ICONS[CROPS[it.idx].cat]+'</span><span>'+it.name+'</span></div>';
+    }
+  }
+  if (total === 0) html = '<div class="cs-empty">'+t.noResults+'</div>';
+  $('csList').innerHTML = html;
+  var opts = $('csList').querySelectorAll('.cs-option');
+  for (var k = 0; k < opts.length; k++){
+    (function(el){ el.addEventListener('click', function(){ selectCrop(parseInt(el.getAttribute('data-idx'))); closeDropdown(); }); })(opts[k]);
+  }
+}
+function openDropdown(){
+  csOpen = true;
+  $('csPanel').classList.add('open');
+  $('csTrigger').classList.add('open');
+  $('csTrigger').setAttribute('aria-expanded','true');
+  if ($('csSearchInput')) $('csSearchInput').value = '';
+  buildDropdownList();
+  setTimeout(function(){ if ($('csSearchInput')) $('csSearchInput').focus(); }, 100);
+}
+function closeDropdown(){
+  csOpen = false;
+  $('csPanel').classList.remove('open');
+  $('csTrigger').classList.remove('open');
+  $('csTrigger').setAttribute('aria-expanded','false');
+}
+function updateTrigger(){
+  var t = T[state.lang];
+  var label = $('csLabel'), sub = $('csSub'), icon = $('csIcon');
+  if (state.cropId === null){
+    label.textContent = t.cropPlaceholder;
+    label.classList.add('placeholder');
+    sub.textContent = '';
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#78716c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4 6c0 4 4 6 8 6M20 6c0 4-4 6-8 6"/></svg>';
+    icon.style.background = '';
+    return;
+  }
+  var c = CROPS[state.cropId];
+  label.textContent = cropName(c);
+  label.classList.remove('placeholder');
+  sub.textContent = methodLabel(c.m);
+  var ic = c.cat==='fruit'?'#ea580c':c.cat==='veg'?'#16a34a':'#a16207';
+  var ib = c.cat==='fruit'?'linear-gradient(135deg,#ffedd5,#fed7aa)':c.cat==='veg'?'linear-gradient(135deg,#dcfce7,#bbf7d0)':'linear-gradient(135deg,#fef3c7,#fde68a)';
+  icon.style.background = ib;
+  icon.innerHTML = '<span style="color:'+ic+';display:block;width:18px;height:18px">'+CAT_ICONS[c.cat]+'</span>';
+}
+function selectCrop(idx){
+  state.cropId = idx;
+  var c = CROPS[idx];
+  if (c.m === 'square'){ state.sqSpacing = c.r; state.sqUnit = 'cm'; }
+  else if (c.m === 'rect'){ state.rectRow = c.r; state.rectRowU='cm'; state.rectPlant = c.p; state.rectPlantU='cm'; }
+  else if (c.m === 'tri'){ state.triPlant = c.p; state.triUnit='cm'; }
+  else if (c.m === 'paired'){ state.pNarrow = c.n; state.pNarrowU='cm'; state.pWide = c.w; state.pWideU='cm'; state.pPlant = c.p; state.pPlantU='cm'; }
+  else if (c.m === 'bed'){ state.bedWidth = c.bw; state.bedWidthU='cm'; state.furrowWidth = c.fw; state.furrowWidthU='cm'; state.rowsPerBed = c.R; state.bedPlant = c.p; state.bedPlantU='cm'; }
+  updateTrigger();
+  setMethod(c.m);
+  updateCropMeta();
+}
+function initDropdown(){
+  if (!$('csTrigger')) return;
+  $('csTrigger').addEventListener('click', function(e){ e.stopPropagation(); if (csOpen) closeDropdown(); else openDropdown(); });
+  if ($('csSearchInput')){
+    $('csSearchInput').addEventListener('input', function(){ buildDropdownList(); });
+    $('csSearchInput').addEventListener('keydown', function(e){ if (e.key === 'Escape'){ closeDropdown(); $('csTrigger').focus(); } });
+  }
+  document.addEventListener('click', function(e){ if (csOpen && $('csWrap') && !$('csWrap').contains(e.target)) closeDropdown(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && csOpen) closeDropdown(); });
+  updateTrigger();
+}
+
+function openZoom(svgString, hint){
+  var modal = $('zoomModal'), body = $('zoomBody');
+  if (!modal || !body) return;
+  body.innerHTML = svgString;
+  if ($('zoomHintText') && hint) $('zoomHintText').textContent = hint;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeZoom(){
+  var modal = $('zoomModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(function(){ if ($('zoomBody')) $('zoomBody').innerHTML = ''; }, 400);
+}
+function initZoom(){
+  if ($('zoomClose')) $('zoomClose').addEventListener('click', closeZoom);
+  if ($('zoomModal')) $('zoomModal').addEventListener('click', function(e){ if (e.target === $('zoomModal')) closeZoom(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeZoom(); });
+}
+
+function buildMethodGrid(){
+  var t = T[state.lang];
+  var methods = [{k:'square',lbl:t.mSquare},{k:'rect',lbl:t.mRect},{k:'tri',lbl:t.mTri},{k:'paired',lbl:t.mPaired},{k:'bed',lbl:t.mBed}];
+  var html = '';
+  for (var i = 0; i < methods.length; i++){
+    var m = methods[i];
+    html += '<button class="mbtn'+(state.method===m.k?' active':'')+'" data-m="'+m.k+'"><span class="mbtn-ico">'+METHOD_ICONS[m.k]+'</span><span>'+m.lbl+'</span></button>';
+  }
+  $('methodGrid').innerHTML = html;
+  var btns = $('methodGrid').querySelectorAll('.mbtn');
+  for (var j = 0; j < btns.length; j++){
+    (function(btn){ btn.addEventListener('click', function(){ setMethod(btn.getAttribute('data-m')); }); })(btns[j]);
+  }
+}
+
+var currentMinis = {};
+function buildParams(){
+  var p = $('params'), t = T[state.lang], m = state.method;
+  var html = '';
+  currentMinis = {};
+  function unitSel(id,val){var o='';['cm','ft','inch','m'].forEach(function(u){o+='<option value="'+u+'"'+(val===u?' selected':'')+'>'+unitLabel(u)+'</option>';});return '<select id="'+id+'">'+o+'</select>';}
+  function areaUnitSel(){
+    var opts = [{v:'ha', l:t.unitHa},{v:'acre', l:t.unitAcre},{v:'guntha', l:t.unitGuntha},{v:'sqm', l:t.unitSqM},{v:'sqft', l:t.unitSqFt}];
+    var o = '';
+    for (var i=0;i<opts.length;i++) o += '<option value="'+opts[i].v+'"'+(state.areaUnit===opts[i].v?' selected':'')+'>'+opts[i].l+'</option>';
+    return '<select id="areaUnit">'+o+'</select>';
+  }
+  function row(key, dotColor, label, desc, inputHtml, miniSvg){
+    currentMinis[key] = miniSvg;
+    var zoomIcon = '<div class="mini-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg></div>';
+    return '<div class="prow"><div class="prow-left"><label><span class="dot" style="background:'+dotColor+'"></span>'+label+'</label><div class="prow-desc">'+desc+'</div><div class="urow">'+inputHtml+'</div></div><div class="mini" data-mini="'+key+'">'+zoomIcon+miniSvg+'</div></div>';
+  }
+  if (m==='square') html += row('sq','#d97706',t.pSqSpacing,t.dSqSpacing,'<input type="number" id="pSq" value="'+state.sqSpacing+'" min="0.1" step="0.1">'+unitSel('uSq',state.sqUnit),miniSpacing(t));
+  else if (m==='rect'){
+    html += row('rr','#d97706',t.pRectRow,t.dRectRow,'<input type="number" id="pRectRow" value="'+state.rectRow+'" min="0.1" step="0.1">'+unitSel('uRectRow',state.rectRowU),miniRowToRow(t));
+    html += row('rp','#15803d',t.pRectPlant,t.dRectPlant,'<input type="number" id="pRectPlant" value="'+state.rectPlant+'" min="0.1" step="0.1">'+unitSel('uRectPlant',state.rectPlantU),miniPlantToPlant(t));
+  }
+  else if (m==='tri') html += row('tp','#15803d',t.pTriPlant,t.dTriPlant,'<input type="number" id="pTri" value="'+state.triPlant+'" min="0.1" step="0.1">'+unitSel('uTri',state.triUnit),miniTri(t));
+  else if (m==='paired'){
+    html += row('pn','#15803d',t.pPNarrow,t.dPNarrow,'<input type="number" id="pNarrow" value="'+state.pNarrow+'" min="0.1" step="0.1">'+unitSel('uNarrow',state.pNarrowU),miniNarrow(t));
+    html += row('pw','#1e40af',t.pPWide,t.dPWide,'<input type="number" id="pWide" value="'+state.pWide+'" min="0.1" step="0.1">'+unitSel('uWide',state.pWideU),miniWide(t));
+    html += row('pp','#d97706',t.pPPlant,t.dPPlant,'<input type="number" id="pPPlant" value="'+state.pPlant+'" min="0.1" step="0.1">'+unitSel('uPPlant',state.pPlantU),miniPPlant(t));
+  }
+  else if (m==='bed'){
+    html += row('bw','#6d28d9',t.pBedWidth,t.dBedWidth,'<input type="number" id="pBedW" value="'+state.bedWidth+'" min="0.1" step="0.1">'+unitSel('uBedW',state.bedWidthU),miniBedWidth(t));
+    html += row('fw','#1e40af',t.pFurrow,t.dFurrow,'<input type="number" id="pFurrow" value="'+state.furrowWidth+'" min="0.1" step="0.1">'+unitSel('uFurrow',state.furrowWidthU),miniFurrow(t));
+    html += row('rb','#15803d',t.pRowsBed,t.dRowsBed,'<input type="number" id="pRows" value="'+state.rowsPerBed+'" min="1" max="6" step="1"><div style="flex:0 0 108px"></div>',miniBedRows(t));
+    html += row('bp','#d97706',t.pBedPlant,t.dBedPlant,'<input type="number" id="pBedPlant" value="'+state.bedPlant+'" min="0.1" step="0.1">'+unitSel('uBedPlant',state.bedPlantU),miniBedPlant(t));
+  }
+  html += row('area','#15803d',t.lArea,t.dArea,'<input type="number" id="areaVal" value="'+state.area+'" min="0.01" step="0.01">'+areaUnitSel(),miniArea(t));
+  html += row('extra','#7c3aed',t.lExtra,t.dExtra,'<select id="extraPct" style="width:100%;border-radius:10px;"><option value="0"'+(state.extraPct===0?' selected':'')+'>0%</option><option value="5"'+(state.extraPct===5?' selected':'')+'>5%</option><option value="10"'+(state.extraPct===10?' selected':'')+'>10%</option></select>',miniExtra(t));
+  p.innerHTML = html;
+
+  var minis = p.querySelectorAll('.mini');
+  for (var k = 0; k < minis.length; k++){
+    (function(el){
+      el.addEventListener('click', function(){
+        var key = el.getAttribute('data-mini');
+        var svg = currentMinis[key];
+        if (svg) openZoom(svg, T[state.lang].zoomHint);
+      });
+    })(minis[k]);
+  }
+}
+function readParams(){
+  var m = state.method;
+  if (m==='square'){ if($('pSq')){state.sqSpacing=parseFloat($('pSq').value)||0;state.sqUnit=$('uSq').value;} }
+  else if (m==='rect'){ if($('pRectRow')){state.rectRow=parseFloat($('pRectRow').value)||0;state.rectRowU=$('uRectRow').value;} if($('pRectPlant')){state.rectPlant=parseFloat($('pRectPlant').value)||0;state.rectPlantU=$('uRectPlant').value;} }
+  else if (m==='tri'){ if($('pTri')){state.triPlant=parseFloat($('pTri').value)||0;state.triUnit=$('uTri').value;} }
+  else if (m==='paired'){ if($('pNarrow')){state.pNarrow=parseFloat($('pNarrow').value)||0;state.pNarrowU=$('uNarrow').value;} if($('pWide')){state.pWide=parseFloat($('pWide').value)||0;state.pWideU=$('uWide').value;} if($('pPPlant')){state.pPlant=parseFloat($('pPPlant').value)||0;state.pPlantU=$('uPPlant').value;} }
+  else if (m==='bed'){ if($('pBedW')){state.bedWidth=parseFloat($('pBedW').value)||0;state.bedWidthU=$('uBedW').value;} if($('pFurrow')){state.furrowWidth=parseFloat($('pFurrow').value)||0;state.furrowWidthU=$('uFurrow').value;} if($('pRows'))state.rowsPerBed=parseInt($('pRows').value)||1; if($('pBedPlant')){state.bedPlant=parseFloat($('pBedPlant').value)||0;state.bedPlantU=$('uBedPlant').value;} }
+  if ($('areaVal')) state.area = parseFloat($('areaVal').value)||0;
+  if ($('areaUnit')) state.areaUnit = $('areaUnit').value;
+  if ($('extraPct')) state.extraPct = parseFloat($('extraPct').value)||0;
+}
+function getAreaPerPlant(){
+  var m = state.method;
+  if (m==='square'){var s=toM(state.sqSpacing,state.sqUnit);return s*s;}
+  if (m==='rect'){return toM(state.rectRow,state.rectRowU)*toM(state.rectPlant,state.rectPlantU);}
+  if (m==='tri'){var tp=toM(state.triPlant,state.triUnit);return 0.8660254*tp*tp;}
+  if (m==='paired'){var n=toM(state.pNarrow,state.pNarrowU),w=toM(state.pWide,state.pWideU);return ((n+w)/2)*toM(state.pPlant,state.pPlantU);}
+  if (m==='bed'){var bw=toM(state.bedWidth,state.bedWidthU),fw=toM(state.furrowWidth,state.furrowWidthU);var bp=toM(state.bedPlant,state.bedPlantU),R=Math.max(1,state.rowsPerBed);return ((bw+fw)*bp)/R;}
+  return 0;
+}
+function calculate(){
+  var app = getAreaPerPlant(); if (!app || app <= 0) return;
+  var perHa = 10000/app, perAcre = 4046.8564/app;
+  var ha = toHa(state.area, state.areaUnit);
+  var total = perHa*ha*(1 + state.extraPct/100);
+  var t = T[state.lang];
+  $('rPerHa').textContent = nf(perHa);
+  $('rPerAcre').textContent = nf(perAcre);
+  $('rApp').textContent = nf2(app);
+  $('rTotal').textContent = nf(total);
+  $('rTU').textContent = state.extraPct > 0 ? t.resPlants + ' (+' + state.extraPct + '%)' : t.resPlants;
+  $('rHU').textContent = t.resPlantsHa;
+  $('rAU').textContent = t.resPlantsAcre;
+  $('rPU').textContent = t.resM2Plant;
+  var m = state.method, f = '';
+  if (m==='square') f=t.fSquare; else if (m==='rect') f=t.fRect; else if (m==='tri') f=t.fTri; else if (m==='paired') f=t.fPaired; else f=t.fBed;
+  $('formulaBox').innerHTML = '<code>'+f+'</code> &nbsp;=&nbsp; <b>'+nf2(app)+' '+t.unitM2+'</b> '+t.perPlantTail;
+}
+
+function drawField(){
+  var W=900,H=640,t=T[state.lang],m=state.method;
+  var s = DEFS; s += '<rect width="'+W+'" height="'+H+'" fill="#fefcf5" rx="10"/>';
+  if (m==='square'){
+    var xsS=[200,310,420,530,640,750],ysS=[160,320,480];
+    for(var rS=0;rS<ysS.length;rS++){s+='<line x1="180" y1="'+ysS[rS]+'" x2="770" y2="'+ysS[rS]+'" stroke="#d6d3cc" stroke-width="0.9" stroke-dasharray="5 5"/>';for(var cS=0;cS<xsS.length;cS++)s+=plant(xsS[cS],ysS[rS],17);}
+    s+=arrowV(ysS[0],ysS[1],130,state.sqSpacing+' '+unitLabel(state.sqUnit),'#d97706','aOr');
+    s+=arrowH(xsS[0],xsS[1],570,state.sqSpacing+' '+unitLabel(state.sqUnit),'#d97706','aOr');
+    s+='<text x="'+(W/2)+'" y="55" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="19" font-weight="700" fill="#14532d">'+t.titleSquare+'</text>';
+  }
+  else if (m==='rect'){
+    var xsR=[200,310,420,530,640,750],ysR=[150,320,490];
+    for(var rR=0;rR<ysR.length;rR++){s+='<line x1="180" y1="'+ysR[rR]+'" x2="770" y2="'+ysR[rR]+'" stroke="#d6d3cc" stroke-width="0.9" stroke-dasharray="5 5"/>';for(var cR=0;cR<xsR.length;cR++)s+=plant(xsR[cR],ysR[rR],17);}
+    s+=arrowV(ysR[0],ysR[1],130,state.rectRow+' '+unitLabel(state.rectRowU),'#d97706','aOr');
+    s+=arrowH(xsR[0],xsR[1],580,state.rectPlant+' '+unitLabel(state.rectPlantU),'#15803d','aGr');
+    s+='<text x="'+(W/2)+'" y="55" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="19" font-weight="700" fill="#14532d">'+t.titleRect+'</text>';
+  }
+  else if (m==='tri'){
+    var xsA=[170,290,410,530,650,770],xsB=[230,350,470,590,710],ysT=[130,215,300,385,470];
+    for(var rt=0;rt<ysT.length;rt++){s+='<line x1="150" y1="'+ysT[rt]+'" x2="790" y2="'+ysT[rt]+'" stroke="#d6d3cc" stroke-width="0.9" stroke-dasharray="5 5"/>';}
+    for(var zi=0;zi<ysT.length-1;zi++){var yA=ysT[zi],yB=ysT[zi+1];var colA_=zi%2===0?xsA:xsB,colB_=zi%2===0?xsB:xsA;var zPath='';for(var k=0;k<colA_.length;k++){var xa=colA_[k],xb=null;for(var kb=0;kb<colB_.length;kb++){if(colB_[kb]>xa){xb=colB_[kb];break;}}if(zPath===''){zPath='M '+xa+' '+yA;}else{zPath+=' L '+xa+' '+yA;}if(xb!==null){zPath+=' L '+xb+' '+yB;}}s+='<path d="'+zPath+'" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-dasharray="5 4" opacity="0.7" stroke-linejoin="round"/>';}
+    for(var ka=0;ka<xsA.length;ka++){s+=plant(xsA[ka],ysT[0],16);s+=plant(xsA[ka],ysT[2],16);s+=plant(xsA[ka],ysT[4],16);}
+    for(var kb2=0;kb2<xsB.length;kb2++){s+=plant(xsB[kb2],ysT[1],16);s+=plant(xsB[kb2],ysT[3],16);}
+    s+=arrowH(xsA[0],xsA[1],570,state.triPlant+' '+unitLabel(state.triUnit),'#15803d','aGr');
+    s+='<text x="'+(W/2)+'" y="55" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="19" font-weight="700" fill="#14532d">'+t.titleTri+'</text>';
+  }
+  else if (m==='paired'){
+    var r1y=170,r2y=225,r3y=390,r4y=445;var colA_P=[200,320,440,560,680],colB_P=[260,380,500,620];
+    s+='<rect x="160" y="140" width="560" height="115" rx="14" fill="#dcfce7" fill-opacity="0.42" stroke="#86efac" stroke-width="1.4" stroke-dasharray="6 4"/>';
+    s+='<rect x="160" y="360" width="560" height="115" rx="14" fill="#dcfce7" fill-opacity="0.42" stroke="#86efac" stroke-width="1.4" stroke-dasharray="6 4"/>';
+    [r1y,r2y,r3y,r4y].forEach(function(yy){s+='<line x1="180" y1="'+yy+'" x2="700" y2="'+yy+'" stroke="#d6d3cc" stroke-width="0.9" stroke-dasharray="5 5"/>';});
+    for(var ia=0;ia<colA_P.length;ia++){s+=plant(colA_P[ia],r1y,16);s+=plant(colA_P[ia],r3y,16);}
+    for(var ib=0;ib<colB_P.length;ib++){s+=plant(colB_P[ib],r2y,16);s+=plant(colB_P[ib],r4y,16);}
+    var zz1='M '+colA_P[0]+' '+r1y;for(var k1=0;k1<colA_P.length-1;k1++){zz1+=' L '+colB_P[k1]+' '+r2y+' L '+colA_P[k1+1]+' '+r1y;}
+    s+='<path d="'+zz1+'" fill="none" stroke="#ea580c" stroke-width="2.1" stroke-dasharray="5 4" opacity="0.85" stroke-linejoin="round"/>';
+    var zz2='M '+colA_P[0]+' '+r3y;for(var k2=0;k2<colA_P.length-1;k2++){zz2+=' L '+colB_P[k2]+' '+r4y+' L '+colA_P[k2+1]+' '+r3y;}
+    s+='<path d="'+zz2+'" fill="none" stroke="#ea580c" stroke-width="2.1" stroke-dasharray="5 4" opacity="0.85" stroke-linejoin="round"/>';
+    s+=dripLine(180,700,(r1y+r2y)/2);s+=dripLine(180,700,(r3y+r4y)/2);
+    s+=arrowV(r1y,r2y,110,state.pNarrow+' '+unitLabel(state.pNarrowU),'#15803d','aGr');
+    s+=arrowV(r2y,r3y,110,state.pWide+' '+unitLabel(state.pWideU),'#1e40af','aBl');
+    s+=arrowV(r3y,r4y,110,state.pNarrow+' '+unitLabel(state.pNarrowU),'#15803d','aGr');
+    s+=arrowH(colA_P[0],colA_P[1],560,state.pPlant+' '+unitLabel(state.pPlantU),'#d97706','aOr');
+    s+='<text x="90" y="'+(r1y+5)+'" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="700" fill="#78716c">R1</text>';
+    s+='<text x="90" y="'+(r2y+5)+'" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="700" fill="#78716c">R2</text>';
+    s+='<text x="90" y="'+(r3y+5)+'" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="700" fill="#78716c">R3</text>';
+    s+='<text x="90" y="'+(r4y+5)+'" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="700" fill="#78716c">R4</text>';
+    s+='<text x="715" y="'+((r1y+r2y)/2+5)+'" font-family="sans-serif" font-size="11" font-weight="700" fill="#1e40af">'+t.dripLabel+'</text>';
+    s+='<text x="715" y="'+((r3y+r4y)/2+5)+'" font-family="sans-serif" font-size="11" font-weight="700" fill="#1e40af">'+t.dripLabel+'</text>';
+    s+='<text x="'+(W/2)+'" y="55" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="19" font-weight="700" fill="#14532d">'+t.titlePaired+'</text>';
+  }
+  else if (m==='bed'){
+    var R=Math.max(1,state.rowsPerBed);var bedX=180,bedW=540;
+    var bedTop=140,bedH=40+R*22;var furrowTop=bedTop+bedH,furrowH=70;var bed2Top=furrowTop+furrowH;
+    var colsA=[250,370,490,610],colsB=[310,430,550,670];
+    s+='<rect x="'+bedX+'" y="'+(bedTop+bedH-4)+'" width="'+bedW+'" height="14" fill="url(#bedWallG)" rx="4"/>';
+    s+='<rect x="'+bedX+'" y="'+bedTop+'" width="'+bedW+'" height="'+bedH+'" rx="8" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.6"/>';
+    for(var tl=1;tl<=3;tl++){var ly=bedTop+(tl*(bedH-4))/4;s+='<line x1="'+(bedX+15)+'" y1="'+ly+'" x2="'+(bedX+bedW-15)+'" y2="'+ly+'" stroke="#a06a3a" stroke-width="0.6" opacity="0.32"/>';}
+    var yRows1=[];for(var r1=0;r1<R;r1++){var rowY=R===1?bedTop+bedH/2:bedTop+28+r1*((bedH-50)/(R-1));yRows1.push(rowY);}
+    for(var rr=0;rr<R;rr++){var cols_=rr%2===0?colsA:colsB;for(var cc=0;cc<cols_.length;cc++)s+=plant(cols_[cc],yRows1[rr],14);}
+    for(var zz=0;zz<R-1;zz++){var yZa=yRows1[zz],yZb=yRows1[zz+1];var colZa=zz%2===0?colsA:colsB,colZb=zz%2===0?colsB:colsA;var path='M '+colZa[0]+' '+yZa;for(var zk=0;zk<colZa.length-1;zk++){path+=' L '+colZb[zk]+' '+yZb+' L '+colZa[zk+1]+' '+yZa;}s+='<path d="'+path+'" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-dasharray="5 4" opacity="0.72" stroke-linejoin="round"/>';}
+    if(R===2)s+=dripLine(bedX+40,bedX+bedW-40,bedTop+bedH*0.68);else if(R===3)s+=dripLine(bedX+40,bedX+bedW-40,bedTop+bedH*0.72);else{s+=dripLine(bedX+40,bedX+bedW-40,bedTop+bedH*0.35);s+=dripLine(bedX+40,bedX+bedW-40,bedTop+bedH*0.72);}
+    s+='<rect x="'+bedX+'" y="'+furrowTop+'" width="'+bedW+'" height="'+furrowH+'" rx="6" fill="url(#waterG)" stroke="#0369a1" stroke-width="1.3"/>';
+    s+='<rect x="'+bedX+'" y="'+furrowTop+'" width="'+bedW+'" height="20" rx="6" fill="url(#waterSheen)"/>';
+    s+='<path d="M '+(bedX+20)+' '+(furrowTop+22)+' Q '+(bedX+bedW/4)+' '+(furrowTop+17)+' '+(bedX+bedW/2)+' '+(furrowTop+22)+' T '+(bedX+bedW-20)+' '+(furrowTop+22)+'" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.7"/>';
+    s+='<path d="M '+(bedX+20)+' '+(furrowTop+38)+' Q '+(bedX+bedW/4)+' '+(furrowTop+33)+' '+(bedX+bedW/2)+' '+(furrowTop+38)+' T '+(bedX+bedW-20)+' '+(furrowTop+38)+'" stroke="#ffffff" stroke-width="1.3" fill="none" opacity="0.5"/>';
+    s+='<text x="'+((bedX*2+bedW)/2)+'" y="'+(furrowTop+furrowH/2+6)+'" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="15" font-weight="700" fill="#0c4a6e">💧</text>';
+    s+='<rect x="'+bedX+'" y="'+(bed2Top+bedH-4)+'" width="'+bedW+'" height="14" fill="url(#bedWallG)" rx="4"/>';
+    s+='<rect x="'+bedX+'" y="'+bed2Top+'" width="'+bedW+'" height="'+bedH+'" rx="8" fill="url(#bedTopG)" stroke="#8b5a2b" stroke-width="1.6"/>';
+    for(var tl2=1;tl2<=3;tl2++){var ly2=bed2Top+(tl2*(bedH-4))/4;s+='<line x1="'+(bedX+15)+'" y1="'+ly2+'" x2="'+(bedX+bedW-15)+'" y2="'+ly2+'" stroke="#a06a3a" stroke-width="0.6" opacity="0.32"/>';}
+    var yRows2=[];for(var r2=0;r2<R;r2++){var rowY2=R===1?bed2Top+bedH/2:bed2Top+28+r2*((bedH-50)/(R-1));yRows2.push(rowY2);}
+    for(var rr2=0;rr2<R;rr2++){var cols2_=rr2%2===0?colsA:colsB;for(var cc2=0;cc2<cols2_.length;cc2++)s+=plant(cols2_[cc2],yRows2[rr2],14);}
+    for(var zz2b=0;zz2b<R-1;zz2b++){var yZa2=yRows2[zz2b],yZb2=yRows2[zz2b+1];var colZa2=zz2b%2===0?colsA:colsB,colZb2=zz2b%2===0?colsB:colsA;var path2='M '+colZa2[0]+' '+yZa2;for(var zk2=0;zk2<colZa2.length-1;zk2++){path2+=' L '+colZb2[zk2]+' '+yZb2+' L '+colZa2[zk2+1]+' '+yZa2;}s+='<path d="'+path2+'" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-dasharray="5 4" opacity="0.72" stroke-linejoin="round"/>';}
+    if(R===2)s+=dripLine(bedX+40,bedX+bedW-40,bed2Top+bedH*0.68);else if(R===3)s+=dripLine(bedX+40,bedX+bedW-40,bed2Top+bedH*0.72);else{s+=dripLine(bedX+40,bedX+bedW-40,bed2Top+bedH*0.35);s+=dripLine(bedX+40,bedX+bedW-40,bed2Top+bedH*0.72);}
+    s+=arrowV(bedTop,bedTop+bedH,120,state.bedWidth+' '+unitLabel(state.bedWidthU),'#6d28d9','aPu');
+    s+=arrowV(bedTop+bedH,bed2Top,120,state.furrowWidth+' '+unitLabel(state.furrowWidthU),'#1e40af','aBl');
+    s+=arrowH(colsA[0],colsA[1],bed2Top+bedH+40,state.bedPlant+' '+unitLabel(state.bedPlantU),'#d97706','aOr');
+    s+='<text x="'+(W/2)+'" y="55" text-anchor="middle" font-family="Noto Sans Gujarati, sans-serif" font-size="19" font-weight="700" fill="#14532d">'+t.titleBed+' — '+R+' '+t.miniRows+'</text>';
+  }
+  $('fieldSvg').innerHTML = s;
+}
+function attachParamListeners(){
+  var ids=['pSq','uSq','pRectRow','uRectRow','pRectPlant','uRectPlant','pTri','uTri','pNarrow','uNarrow','pWide','uWide','pPPlant','uPPlant','pBedW','uBedW','pFurrow','uFurrow','pRows','pBedPlant','uBedPlant','areaVal','areaUnit','extraPct'];
+  for (var i=0;i<ids.length;i++){var el=$(ids[i]);if(!el)continue;el.addEventListener('input',function(){readParams();refreshMinis();calculate();drawField();});el.addEventListener('change',function(){readParams();refreshMinis();calculate();drawField();});}
+}
+function refreshMinis(){
+  var t = T[state.lang], m = state.method;
+  var map = {};
+  if (m==='square'){ map.sq = miniSpacing(t); }
+  else if (m==='rect'){ map.rr = miniRowToRow(t); map.rp = miniPlantToPlant(t); }
+  else if (m==='tri'){ map.tp = miniTri(t); }
+  else if (m==='paired'){ map.pn = miniNarrow(t); map.pw = miniWide(t); map.pp = miniPPlant(t); }
+  else if (m==='bed'){ map.bw = miniBedWidth(t); map.fw = miniFurrow(t); map.rb = miniBedRows(t); map.bp = miniBedPlant(t); }
+  map.area = miniArea(t); map.extra = miniExtra(t);
+  for (var key in map){
+    var el = document.querySelector('.mini[data-mini="'+key+'"]');
+    if (!el) continue;
+    currentMinis[key] = map[key];
+    var zoomIcon = el.querySelector('.mini-zoom');
+    el.innerHTML = '';
+    if (zoomIcon) el.appendChild(zoomIcon);
+    var wrap = document.createElement('div');
+    wrap.style.width = '100%'; wrap.style.height = '100%';
+    wrap.innerHTML = map[key];
+    while (wrap.firstChild) el.appendChild(wrap.firstChild);
+  }
+}
+function setMethod(m){
+  state.method = m;
+  var btns = document.querySelectorAll('.mbtn');
+  for (var i=0;i<btns.length;i++) btns[i].classList.toggle('active', btns[i].getAttribute('data-m')===m);
+  buildParams(); attachParamListeners(); calculate(); drawField();
+}
+function updateCropMeta(){
+  var el = $('cropMeta'); if (!el) return;
+  var t = T[state.lang];
+  if (state.cropId === null){ el.innerHTML = t.cropMetaDefault; return; }
+  var c = CROPS[state.cropId];
+  el.innerHTML = t.cropMetaRec(cropName(c), methodLabel(c.m));
+}
+
+function downloadFieldImage(){
+  var svgEl = $('fieldSvg');
+  if (!svgEl) return;
+  var btn = $('btnDownload');
+  var labelEl = $('btnDownloadLabel');
+  var t = T[state.lang];
+  btn.disabled = true;
+  btn.classList.add('loading');
+  if (labelEl) labelEl.textContent = t.downloadBtnLoading;
+  var clone = svgEl.cloneNode(true);
+  var w = 900, h = 640;
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+  clone.setAttribute('width', w);
+  clone.setAttribute('height', h);
+  clone.setAttribute('viewBox', '0 0 '+w+' '+h);
+  var bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  bgRect.setAttribute('x', '0');
+  bgRect.setAttribute('y', '0');
+  bgRect.setAttribute('width', w);
+  bgRect.setAttribute('height', h);
+  bgRect.setAttribute('fill', '#fefcf5');
+  if (clone.firstChild) clone.insertBefore(bgRect, clone.firstChild);
+  else clone.appendChild(bgRect);
+  var svgString = new XMLSerializer().serializeToString(clone);
+  var svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+  var svgUrl = URL.createObjectURL(svgBlob);
+  var img = new Image();
+  img.onload = function(){
+    var scale = 2;
+    var canvas = document.createElement('canvas');
+    canvas.width = w * scale;
+    canvas.height = h * scale;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fefcf5';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(function(blob){
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      var cropName_ = state.cropId !== null ? cropName(CROPS[state.cropId]) : 'field';
+      var safeName = cropName_.replace(/[^a-zA-Z0-9\u0A80-\u0AFF\u0900-\u097F]+/g, '_');
+      var method_ = methodLabel(state.method);
+      a.download = 'plant-calculator_' + safeName + '_' + method_ + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      if (labelEl) labelEl.textContent = t.downloadBtn;
+    }, 'image/png', 0.95);
+    URL.revokeObjectURL(svgUrl);
+  };
+  img.onerror = function(){
+    var url = URL.createObjectURL(svgBlob);
+    var a = document.createElement('a');
+    a.download = 'plant-calculator-field.svg';
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    if (labelEl) labelEl.textContent = t.downloadBtn;
+  };
+  img.src = svgUrl;
+}
+function initDownload(){
+  var btn = $('btnDownload');
+  if (!btn) return;
+  btn.addEventListener('click', function(e){ e.stopPropagation(); downloadFieldImage(); });
+  btn.addEventListener('mousedown', function(e){ e.stopPropagation(); });
+}
+
+function setLanguage(lang){
+  state.lang = lang;
+  var lbs = document.querySelectorAll('.lang-btn');
+  for (var i=0;i<lbs.length;i++) lbs[i].classList.toggle('active', lbs[i].getAttribute('data-lang')===lang);
+  var t = T[lang];
+  $('brandName').textContent = t.brandName;
+  $('introEyebrow').textContent = t.introEyebrow;
+  $('introTitle').textContent = t.introTitle;
+  $('lbCrop').textContent = t.lbCrop; $('lbLayout').textContent = t.lbLayout;
+  $('lbSpacing').textContent = t.lbSpacing; $('lbField').textContent = t.lbField; $('lbResult').textContent = t.lbResult;
+  $('rTL').textContent=t.rTL;$('rHL').textContent=t.rHL;$('rAL').textContent=t.rAL;$('rPL').textContent=t.rPL;
+  $('ft1').textContent=t.ft1;$('ft2').textContent=t.ft2;
+  $('lgPl').textContent=t.lgPl;$('lgBd').textContent=t.lgBd;$('lgWt').textContent=t.lgWt;$('lgDp').textContent=t.lgDp;$('lgZz').textContent=t.lgZz;
+  if ($('btnDownloadLabel')) $('btnDownloadLabel').textContent = t.downloadBtn;
+  if ($('csSearchInput')) $('csSearchInput').placeholder = t.searchPlaceholder;
+  if (state.cropId === null) $('csLabel').textContent = t.cropPlaceholder;
+  if ($('zoomHintText')) $('zoomHintText').textContent = t.zoomHint;
+  updateCropMeta(); updateTrigger();
+  buildMethodGrid(); buildParams(); attachParamListeners(); calculate(); drawField();
+  if (csOpen) buildDropdownList();
+}
+function initReveal(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)){ els.forEach(function(el){el.classList.add('visible');}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting){ entry.target.classList.add('visible'); io.unobserve(entry.target); }
+    });
+  }, {threshold:.08, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+}
+function init(){
+  buildMethodGrid(); buildParams(); attachParamListeners();
+  initDropdown(); initZoom(); initDownload();
+  var lbs = document.querySelectorAll('.lang-btn');
+  for (var i=0;i<lbs.length;i++){ (function(btn){ btn.addEventListener('click', function(){ setLanguage(btn.getAttribute('data-lang')); }); })(lbs[i]); }
+  var fw = $('fieldWrap');
+  if (fw){
+    fw.addEventListener('click', function(){
+      var svg = $('fieldSvg').outerHTML;
+      openZoom(svg, T[state.lang].zoomHint);
+    });
+  }
+  readParams(); calculate(); drawField(); updateCropMeta();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+</script>
+</body>
+</html>

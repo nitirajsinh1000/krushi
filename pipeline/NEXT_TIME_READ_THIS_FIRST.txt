@@ -1,0 +1,53 @@
+HOW TO UPDATE THE APP WHEN A NEW PPQS PDF COMES OUT
+(read this once — then future updates need almost nothing from you)
+
+============================================================
+WHAT TO DO, EVERY TIME
+============================================================
+1. Start a new conversation with Claude (claude.ai or the Claude app).
+2. Attach TWO files:
+     - This whole toolkit folder (as a zip is fine)
+     - The new ppqs_all.pdf
+3. Copy-paste this exact message:
+
+------------------------------------------------------------
+Please update my PPQS Pesticide Finder web app using the
+attached toolkit and the new ppqs_all.pdf. Run run_pipeline.py
+on the PDF to produce webapp_data.json, then run build_webapp.py
+to produce the final deployable zip, exactly as documented in
+those two files. Validate the output the same way it was
+validated when built (render test + data integrity checks)
+before giving it to me. Give me back the ready-to-publish zip.
+Keep the design, features, and my "by Nitirajsinh" credit
+exactly as they are unless I ask for a change.
+------------------------------------------------------------
+
+4. You'll get a zip back. Publish it exactly like the first
+   time: drag the folder onto your existing Netlify site
+   (Site > Deploys > drag and drop) to replace the old version.
+5. On your own test phone: fully close Chrome once (swipe it
+   away from Recent Apps), then reopen your link to make sure
+   you're not looking at a stuck old cached copy.
+
+That's it — no need to explain the project again, no need to
+describe features again. Everything Claude needs is in the
+toolkit's files and their comments.
+
+============================================================
+IF THE PDF's LAYOUT CHANGES
+============================================================
+This toolkit was built against a specific PPQS document
+structure (6 categories, specific page ranges — see
+CATEGORY_MAP near the top of parse_ppqs.py). If the government
+substantially redesigns the PDF, Claude may need to re-map
+those page ranges first. Mention in your message if the new
+PDF "looks very different" from before, so Claude checks that
+before running everything else.
+
+============================================================
+IF YOU EVER WANT A NEW FEATURE OR CHANGE INSTEAD
+============================================================
+Same idea — attach the toolkit, describe the change in plain
+language, and ask for an updated zip back. You don't need to
+re-explain the whole project each time; the toolkit's files
+carry that context.

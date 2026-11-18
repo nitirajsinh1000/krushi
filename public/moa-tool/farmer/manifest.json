@@ -1,0 +1,32 @@
+{
+ "name": "ખેતી દવા માર્ગદર્શિકા",
+ "short_name": "ખેતી દવા",
+ "description": "પાક અને સમસ્યા પ્રમાણે દવા: સામાન્ય, સારી અને શ્રેષ્ઠ.",
+ "lang": "gu",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#f1f8e9",
+ "theme_color": "#15803d",
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
